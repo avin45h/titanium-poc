@@ -1,8 +1,8 @@
-#appname:sample1
-#publisher:avin45h
-#url:http://www.intelligrape.com
-#image:appicon.png
-#appid:com.rentacar
-#desc:undefined
-#type:mobile
-#guid:e206e7a7-4e48-4112-ad2c-7f509030dfe2
+#appname: CarRentalApp
+#publisher: noor
+#url: http://
+#image: appicon.png
+#appid: com.intelligrape.carrentalpoc
+#desc: undefined
+#type: mobile
+#guid: 25a4d728-bca5-4782-a6f8-024a02544c16

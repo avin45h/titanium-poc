@@ -1,0 +1,10 @@
+<Alloy>
+	<View id="loginParentView" class="container">
+		<View id="loginFormContainer">
+			 <TextField id="userNameTextField"  />
+			 <TextField id="passwordTextField"  />
+			 <Button id="loginButton" onClick="onSignInButtonClick"/>
+			 <Button id="signUpButton" onClick="onSignUpButtonClick"/>
+		</View>
+	</View>
+</Alloy>

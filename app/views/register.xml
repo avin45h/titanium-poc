@@ -1,0 +1,12 @@
+<Alloy>
+	<View id = "registerParentView" class="container">
+		<View id="signUpFormContainer">
+			<TextField id="profileNameTextField"  />
+			<TextField id="userNameTextField"  />
+			<TextField id="phoneNumberTextField"  />
+			<TextField id="emailIdTextField"  />
+			<TextField id="locationTextField"  />
+			<Button id="signupButton" onClick="onSignUpButtonClick"/>
+		</View>
+	</View>
+</Alloy>

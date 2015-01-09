@@ -1,0 +1,58 @@
+
+"TextField": {
+    width: Ti.UI.FILL,
+    height:Alloy.Globals.textFieldHeight,
+    color: "#000", // black
+}, 
+"Button":{
+	width: Ti.UI.FILL,
+	height:Alloy.Globals.buttonHeight,
+	color:"white",
+	backgrountColor:"green"
+},
+
+".container": {},
+"#loginParentView":{
+	width:Ti.UI.FILL,
+	height:Ti.UI.FILL
+},
+
+"#loginFormContainer": {
+	left: 10,
+	right: 10,
+	height: Ti.UI.SIZE,
+	layout: 'vertical'
+},
+
+"#userNameTextField": {
+	borderStyle: "Ti.UI.INPUT_BORDERSTYLE_ROUNDED",
+	width: "100%",
+	height: 60,
+	hintText: "User Name",
+	maxLength: 40,
+	color: "black"
+},
+"#passwordTextField": {
+	borderStyle: "Ti.UI.INPUT_BORDERSTYLE_ROUNDED",
+	top: 15 ,
+	width: "100%",
+	height: 60,
+	hintText: "Password",
+	maxLength: 40,
+	passwordMask: true,
+	color: "black"
+},
+"#loginButton":{
+	top: 20,
+	width: "100%",
+	height: 60,
+	title: "Login",
+	color: "black"
+},
+"#signUpButton":{
+	top: 50,
+	width: "100%",
+	height: 60,
+	title: "SignUp",
+	color: "black"
+}

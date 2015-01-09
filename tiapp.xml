@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>com.rentacar</id>
-    <name>Rent A Car</name>
+    <id>com.intelligrape.carrentalpoc</id>
+    <name>CarRentalApp</name>
     <version>1.0</version>
-    <publisher>avin45h</publisher>
-    <url>http://www.intelligrape.com</url>
-    <description/>
-    <copyright>2014 by avin45h</copyright>
-    <icon>appicon.jpg</icon>
+    <publisher>noor</publisher>
+    <url>http://</url>
+    <description>undefined</description>
+    <copyright>2015 by noor</copyright>
+    <icon>appicon.png</icon>
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
-    <analytics>false</analytics>
-    <guid>e206e7a7-4e48-4112-ad2c-7f509030dfe2</guid>
+    <analytics>true</analytics>
+    <guid>25a4d728-bca5-4782-a6f8-024a02544c16</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
     <ios>
         <plist>
@@ -49,11 +49,14 @@
     </mobileweb>
     <modules/>
     <deployment-targets>
-        <target device="iphone">false</target>
-        <target device="ipad">false</target>
         <target device="android">true</target>
         <target device="blackberry">false</target>
-        <target device="mobileweb">true</target>
+        <target device="ipad">false</target>
+        <target device="iphone">true</target>
+        <target device="mobileweb">false</target>
     </deployment-targets>
     <sdk-version>3.4.1.GA</sdk-version>
+    <plugins>
+        <plugin version="1.0">ti.alloy</plugin>
+    </plugins>
 </ti:app>

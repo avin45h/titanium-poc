@@ -1,0 +1,7 @@
+<Alloy>
+	<NavigationWindow id="navWin" platform="ios">
+		<Window id="navRootWin" title="Login" backgroundColor="white">
+		</Window>
+	</NavigationWindow>
+	<Window id="mainWin" class='container' platform="android"/>
+</Alloy>

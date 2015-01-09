@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+	<string name="app_name">CarRentalApp</string>
+	<string name="profile_name">Profile Name</string>
+	<string name="user_name">User Name</string>
+	<string name="phone_number">Phone Number</string>
+	<string name="emailid">Email Id</string>
+	<string name="location">Location</string>
+	<string name="signup">Sign Up</string>
+	
+	
+</resources>

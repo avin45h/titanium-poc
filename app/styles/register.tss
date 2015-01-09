@@ -1,0 +1,57 @@
+
+".container" : {
+  
+},
+"TextField": {
+    width: Ti.UI.FILL,
+    height:Alloy.Globals.textFieldHeight,
+    color: "#000", // black
+}, 
+"Button":{
+	width: Ti.UI.FILL,
+	height:Alloy.Globals.buttonHeight,
+	color:"white",
+	backgrountColor:"green"
+},
+"#registerParentView":{
+	width:Ti.UI.FILL,
+	height:Ti.UI.FILL,
+	backgroundColor:"white"
+},
+"#signUpFormContainer":{
+	layout:"vertical",
+	left:10,
+	right:10,
+	//width:Ti.UI.FILL,
+	height:Ti.UI.SIZE,
+	backgroundColor:"white"
+},
+"#profileNameTextField":{
+	top:0,
+	hintText:L('profile_name'),
+},
+"#userNameTextField":{
+	top:10,
+	hintText:L('user_name'),
+},
+"#phoneNumberTextField":{
+	top:10,
+	hintText:L('phone_number'),
+},
+"#emailIdTextField":{
+	top:10,
+	hintText:L('emailid'),
+},
+"#locationTextField":{
+	top:10,
+	hintText:L('location'),
+},
+"#signupButton":{
+	top:15,
+	width:Ti.UI.FILL,
+	title:L('signup'),
+	color:"black"
+}
+
+
+

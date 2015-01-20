@@ -1,5 +1,10 @@
 ".container": {
 	backgroundColor:"white"
+},
+"#progressIndicator":{
+	message:L("wait"), 
+	cancelable:true,
 }
+
 
 

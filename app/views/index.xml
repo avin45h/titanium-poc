@@ -1,7 +1,10 @@
 <Alloy>
 	<NavigationWindow id="navWin" platform="ios">
 		<Window id="navRootWin" title="Login" backgroundColor="white">
+			<ActivityIndicator id="progressIndicator"/>
 		</Window>
 	</NavigationWindow>
-	<Window id="mainWin" class='container' platform="android"/>
+	<Window id="mainWin" class='container' platform="android" >
+		<ProgressIndicator ns="Ti.UI.Android" platform="android" id="progressIndicator"/>
+	</Window>
 </Alloy>

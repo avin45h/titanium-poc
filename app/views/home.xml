@@ -1,0 +1,24 @@
+<Alloy>
+	<TabGroup id="mainWin" backgroundColor="white" >
+		<Tab id="cabsListTab" title="Cab List" icon="KS_nav_views.png">
+			<Window id="cabsInListWin" >
+				<ListView id="cabListView" defaultItemTemplate="template" onItemclick="onListViewItemClick">
+					<Templates>
+						<ItemTemplate name="template">
+							<ImageView bindId="cabImage" id="cabImage" />
+							<Label bindId="cabName" id="cabName" />
+							<Label bindId="distance" id="distance" />
+						</ItemTemplate>
+
+					</Templates>
+				</ListView>
+			</Window>
+		</Tab>
+		<Tab id="cabsMapTab" title="Show on Map" icon="KS_nav_views.png">
+			<Window id="cabsInMapWin" >
+				<Label id="label2" color="#999">I am Window 2</Label>
+				<Module id="mapview" module="ti.map" method="createView" onClick="onMapViewClick" />
+			</Window>
+		</Tab>
+	</TabGroup>
+</Alloy>

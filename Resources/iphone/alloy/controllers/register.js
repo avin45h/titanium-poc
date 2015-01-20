@@ -9,7 +9,57 @@ function __processArg(obj, key) {
 
 function Controller() {
     function onSignUpButtonClick() {
-        alert("OTP:" + utils.getOTP());
+        if (validateTextFields()) {
+            args.progressIndicator.show();
+            setTimeout(function() {
+                args.progressIndicator.hide();
+                setTimeout(function() {
+                    $.signUpFormContainer.visible = false;
+                    $.otpFormContainer.visible = true;
+                }, 1e3 * utils.getRandomNumber(1, 2));
+            }, 1e3 * utils.getRandomNumber(2, 4));
+        }
+    }
+    function onDoneButtonClick() {
+        if (null != $.otpTextField.value && 0 == $.otpTextField.value.length) {
+            alert(L("enter_OTP"));
+            return;
+        }
+        args.progressIndicator.show();
+        setTimeout(function() {
+            args.progressIndicator.hide();
+            var homeController = Alloy.createController("home").getView();
+            homeController.open();
+        }, 1e3 * utils.getRandomNumber(2, 4));
+    }
+    function validateTextFields() {
+        if (null != $.profileNameTextField.value && 0 == $.profileNameTextField.value.length) {
+            alert("Enter Profile Name");
+            return false;
+        }
+        if (null != $.userNameTextField.value && 0 == $.userNameTextField.value.length) {
+            alert("Enter User Name");
+            return false;
+        }
+        if (null != $.phoneNumberTextField.value && 0 == $.phoneNumberTextField.value.length) {
+            alert("Enter Phone Number");
+            return false;
+        }
+        if (null != $.emailIdTextField.value && 0 == $.emailIdTextField.value.length) {
+            alert("Enter Email Address");
+            return false;
+        }
+        if (null != $.locationTextField.value && 0 == $.locationTextField.value.length) {
+            alert("Enter Location");
+            return false;
+        }
+        return true;
+    }
+    function init() {
+        var location = require("location");
+        location.getCurrentAddress(function(e) {
+            e.result && ($.locationTextField.value = e.address);
+        });
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "register";
@@ -47,6 +97,7 @@ function Controller() {
         width: Ti.UI.FILL,
         height: Alloy.Globals.textFieldHeight,
         color: "#000",
+        maxLength: 40,
         top: 0,
         hintText: L("profile_name"),
         id: "profileNameTextField"
@@ -56,6 +107,7 @@ function Controller() {
         width: Ti.UI.FILL,
         height: Alloy.Globals.textFieldHeight,
         color: "#000",
+        maxLength: 40,
         top: 10,
         hintText: L("user_name"),
         id: "userNameTextField"
@@ -65,8 +117,10 @@ function Controller() {
         width: Ti.UI.FILL,
         height: Alloy.Globals.textFieldHeight,
         color: "#000",
+        maxLength: 10,
         top: 10,
         hintText: L("phone_number"),
+        keyboardType: Titanium.UI.KEYBOARD_PHONE_PAD,
         id: "phoneNumberTextField"
     });
     $.__views.signUpFormContainer.add($.__views.phoneNumberTextField);
@@ -74,8 +128,10 @@ function Controller() {
         width: Ti.UI.FILL,
         height: Alloy.Globals.textFieldHeight,
         color: "#000",
+        maxLength: 40,
         top: 10,
         hintText: L("emailid"),
+        keyboardType: Titanium.UI.KEYBOARD_EMAIL,
         id: "emailIdTextField"
     });
     $.__views.signUpFormContainer.add($.__views.emailIdTextField);
@@ -83,6 +139,7 @@ function Controller() {
         width: Ti.UI.FILL,
         height: Alloy.Globals.textFieldHeight,
         color: "#000",
+        maxLength: 40,
         top: 10,
         hintText: L("location"),
         id: "locationTextField"
@@ -99,10 +156,48 @@ function Controller() {
     });
     $.__views.signUpFormContainer.add($.__views.signupButton);
     onSignUpButtonClick ? $.__views.signupButton.addEventListener("click", onSignUpButtonClick) : __defers["$.__views.signupButton!click!onSignUpButtonClick"] = true;
+    $.__views.otpFormContainer = Ti.UI.createView({
+        layout: "vertical",
+        left: 10,
+        right: 10,
+        height: Ti.UI.SIZE,
+        backgroundColor: "white",
+        visible: false,
+        id: "otpFormContainer"
+    });
+    $.__views.registerParentView.add($.__views.otpFormContainer);
+    $.__views.otpTextField = Ti.UI.createTextField({
+        width: Ti.UI.FILL,
+        height: Alloy.Globals.textFieldHeight,
+        color: "#000",
+        maxLength: 6,
+        top: 10,
+        hintText: L("enter_otp"),
+        keyboardType: Titanium.UI.KEYBOARD_NUMBER_PAD,
+        id: "otpTextField"
+    });
+    $.__views.otpFormContainer.add($.__views.otpTextField);
+    $.__views.doneButton = Ti.UI.createButton({
+        width: Ti.UI.FILL,
+        height: Alloy.Globals.buttonHeight,
+        color: "black",
+        backgrountColor: "green",
+        top: 15,
+        title: L("done"),
+        id: "doneButton"
+    });
+    $.__views.otpFormContainer.add($.__views.doneButton);
+    onDoneButtonClick ? $.__views.doneButton.addEventListener("click", onDoneButtonClick) : __defers["$.__views.doneButton!click!onDoneButtonClick"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
+    var args = arguments[0] || {};
     var utils = require("utils");
+    require("bencoding.sms").createSMSDialog({
+        barColor: "#a22621"
+    });
+    init();
     __defers["$.__views.signupButton!click!onSignUpButtonClick"] && $.__views.signupButton.addEventListener("click", onSignUpButtonClick);
+    __defers["$.__views.doneButton!click!onDoneButtonClick"] && $.__views.doneButton.addEventListener("click", onDoneButtonClick);
     _.extend($, exports);
 }
 

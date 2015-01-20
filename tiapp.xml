@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
-    <id>com.intelligrape.carrentalpoc</id>
+    <id>com.intelligrape.carrentalapp</id>
     <name>CarRentalApp</name>
     <version>1.0</version>
     <publisher>noor</publisher>
     <url>http://</url>
     <description>undefined</description>
     <copyright>2015 by noor</copyright>
-    <icon>appicon.png</icon>
+    <icon>apppic.png</icon>
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
     <analytics>true</analytics>
@@ -38,7 +38,24 @@
             </dict>
         </plist>
     </ios>
-    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
+        <manifest>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+            <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
+            <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
+            <uses-permission android:name="com.intelligrape.carrentalapp.permission.MAPS_RECEIVE"/>
+            <permission
+                android:name="com.intelligrape.carrentalapp.permission.MAPS_RECEIVE" android:protectionLevel="signature"/>
+            <application>
+                <meta-data
+                    android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyD1NhIImNh4xkEZqC3MlsqDdiRhWQbWrwI"/>
+                <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
+            </application>
+        </manifest>
+    </android>
     <mobileweb>
         <precache/>
         <splash>
@@ -47,7 +64,11 @@
         </splash>
         <theme>default</theme>
     </mobileweb>
-    <modules/>
+    <modules>
+        <module platform="iphone">bencoding.sms</module>
+        <module platform="android">ti.map</module>
+        <module platform="iphone">ti.map</module>
+    </modules>
     <deployment-targets>
         <target device="android">true</target>
         <target device="blackberry">false</target>

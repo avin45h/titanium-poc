@@ -8,7 +8,30 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
-    function onSignInButtonClick() {}
+    function onSignInButtonClick() {
+        doLogin();
+    }
+    function doLogin() {
+        if (validateTextFields()) {
+            args.progressIndicator.show();
+            setTimeout(function() {
+                args.progressIndicator.hide();
+                var homeController = Alloy.createController("home").getView();
+                homeController.open();
+            }, 1e3 * utils.getRandomNumber(2, 4));
+        }
+    }
+    function validateTextFields() {
+        if (null != $.userNameTextField.value && 0 == $.userNameTextField.value.length) {
+            alert(L("enter_user_name"));
+            return false;
+        }
+        if (null != $.passwordTextField.value && 0 == $.passwordTextField.value.length) {
+            alert(L("enter_password"));
+            return false;
+        }
+        return true;
+    }
     function onSignUpButtonClick(e) {
         args.callBacks.signUpCallback(e);
         "android" == Titanium.Platform.osname && args.callBacks.enableHomeUpButtonCallback(e);
@@ -35,11 +58,20 @@ function Controller() {
         id: "loginParentView"
     });
     $.__views.loginParentView && $.addTopLevelView($.__views.loginParentView);
+    $.__views.carRentalImageView = Ti.UI.createImageView({
+        width: Ti.UI.SIZE,
+        height: Ti.UI.SIZE,
+        top: 10,
+        image: "/car_rantal_login_logo.png",
+        id: "carRentalImageView"
+    });
+    $.__views.loginParentView.add($.__views.carRentalImageView);
     $.__views.loginFormContainer = Ti.UI.createView({
         left: 10,
         right: 10,
         height: Ti.UI.SIZE,
         layout: "vertical",
+        top: 140,
         id: "loginFormContainer"
     });
     $.__views.loginParentView.add($.__views.loginFormContainer);
@@ -67,10 +99,10 @@ function Controller() {
     $.__views.loginFormContainer.add($.__views.passwordTextField);
     $.__views.loginButton = Ti.UI.createButton({
         width: "100%",
-        height: 60,
+        height: 40,
         color: "black",
         backgrountColor: "green",
-        top: 20,
+        top: 10,
         title: "Login",
         id: "loginButton"
     });
@@ -78,10 +110,10 @@ function Controller() {
     onSignInButtonClick ? $.__views.loginButton.addEventListener("click", onSignInButtonClick) : __defers["$.__views.loginButton!click!onSignInButtonClick"] = true;
     $.__views.signUpButton = Ti.UI.createButton({
         width: "100%",
-        height: 60,
+        height: 40,
         color: "black",
         backgrountColor: "green",
-        top: 50,
+        top: 10,
         title: "SignUp",
         id: "signUpButton"
     });
@@ -90,6 +122,7 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
+    var utils = require("utils");
     __defers["$.__views.loginButton!click!onSignInButtonClick"] && $.__views.loginButton.addEventListener("click", onSignInButtonClick);
     __defers["$.__views.signUpButton!click!onSignUpButtonClick"] && $.__views.signUpButton.addEventListener("click", onSignUpButtonClick);
     _.extend($, exports);

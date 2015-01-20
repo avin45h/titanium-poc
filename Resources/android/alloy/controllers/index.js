@@ -9,7 +9,9 @@ function __processArg(obj, key) {
 
 function Controller() {
     function onSignUpButtonClick() {
-        registerView = Alloy.createController("register").getView();
+        registerView = Alloy.createController("register", {
+            progressIndicator: $.progressIndicator
+        }).getView();
         $.mainWin.add(registerView);
         $.mainWin.activity.actionBar.onHomeIconItemSelected = onHomeClick;
         $.mainWin.addEventListener("androidback", onAndroidBackButtonPressed);
@@ -53,11 +55,19 @@ function Controller() {
         id: "mainWin"
     });
     $.__views.mainWin && $.addTopLevelView($.__views.mainWin);
+    $.__views.progressIndicator = Ti.UI.Android.createProgressIndicator({
+        message: L("wait"),
+        cancelable: true,
+        id: "progressIndicator"
+    });
+    $.__views.mainWin.add($.__views.progressIndicator);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var registerView;
     var loginView;
+    $.mainWin.orientationModes = [ Titanium.UI.PORTRAIT ];
     loginView = Alloy.createController("login", {
+        progressIndicator: $.progressIndicator,
         callBacks: {
             signUpCallback: onSignUpButtonClick,
             enableHomeUpButtonCallback: enableHomeUpButton,

@@ -1,5 +1,6 @@
 <Alloy>
 	<View id="loginParentView" class="container">
+		<ImageView id="carRentalImageView"/>
 		<View id="loginFormContainer">
 			 <TextField id="userNameTextField"  />
 			 <TextField id="passwordTextField"  />

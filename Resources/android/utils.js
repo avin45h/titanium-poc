@@ -9,5 +9,9 @@ exports.sendSMS = function(mobileNumber, OTP) {
 };
 
 exports.getOTP = function() {
-    return Math.floor(89999 * Math.random() + 1e4);
+    return exports.getRandomNumber(1e5, 999999);
+};
+
+exports.getRandomNumber = function(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
 };

@@ -2,9 +2,14 @@ var registerView;
 var loginView;
 var iPhoneNavigationWin;
 
+if(OS_ANDROID){
+   $.mainWin.orientationModes = [Titanium.UI.PORTRAIT]; 
+}
+
+
 //Will be called when signup button will be tapped
 function onSignUpButtonClick(e) {
-   registerView = Alloy.createController("register").getView();
+   registerView = Alloy.createController("register", {progressIndicator:$.progressIndicator}).getView();
    if(Titanium.Platform.osname == "iphone"){
        var win = Ti.UI.createWindow();
        win.add(registerView);
@@ -58,7 +63,7 @@ function onAndroidBackButtonPressed(e){
 	onHomeClick();
 }
 
-loginView = Alloy.createController("login",{callBacks:{signUpCallback:onSignUpButtonClick, enableHomeUpButtonCallback:enableHomeUpButton, hideHomeUpButtonCallBack:hideHomeUpButton}}).getView();
+loginView = Alloy.createController("login",{progressIndicator:$.progressIndicator, callBacks:{signUpCallback:onSignUpButtonClick, enableHomeUpButtonCallback:enableHomeUpButton, hideHomeUpButtonCallBack:hideHomeUpButton}}).getView();
 
 
 if(Titanium.Platform.osname == "iphone"){

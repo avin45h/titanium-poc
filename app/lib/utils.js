@@ -13,5 +13,12 @@ exports.sendSMS = function(mobileNumber, OTP) {
  * Mehtod to generate 5 digit OTP to register user.
  */
 exports.getOTP = function(){
-    return Math.floor((Math.random() * 89999) + 10000);
+    return exports.getRandomNumber(100000,999999);
+};
+
+/**
+ * Mehtod to generate a random number between a specified range.
+ */
+exports.getRandomNumber = function(min, max){
+    return Math.floor(Math.random() * (max - min) + min);
 };

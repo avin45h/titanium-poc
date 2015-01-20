@@ -1,0 +1,26 @@
+<Alloy>
+	<Window id="mainWin" class="container">
+		<View id="detailsParentView" >
+			<ImageView id="carImageView"/>
+			<View id="cabDetailContainer">
+				<View id="cabNameView">
+					<Label id="cabNameLabel"  />
+					<Label id="cabNameValueLabel"  />
+				</View>
+				<View id="cabDistanceView">
+					<Label id="cabDistanceLabel"  />
+					<Label id="cabDistanceValueLabel"  />
+				</View>
+				<View id="driverNameView">
+					<Label id="driverNameLabel"  />
+					<Label id="driverNameValueLabel"  />
+				</View>
+				<View id="driverPhoneNumberView">
+					<Label id="driverPhoneNumberLabel"  />
+					<Label id="driverPhoneNumberValueLabel"  onClick = "initiateCall"/>
+				</View>
+				<Button id="bookButton"/>
+			</View>
+		</View>
+	</Window>
+</Alloy>

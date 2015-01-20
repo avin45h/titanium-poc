@@ -6,6 +6,7 @@
     width: Ti.UI.FILL,
     height:Alloy.Globals.textFieldHeight,
     color: "#000", // black
+    maxLength:40
 }, 
 "Button":{
 	width: Ti.UI.FILL,
@@ -37,10 +38,13 @@
 "#phoneNumberTextField":{
 	top:10,
 	hintText:L('phone_number'),
+	maxLength:10,
+	keyboardType:Titanium.UI.KEYBOARD_PHONE_PAD
 },
 "#emailIdTextField":{
 	top:10,
 	hintText:L('emailid'),
+	keyboardType:Titanium.UI.KEYBOARD_EMAIL
 },
 "#locationTextField":{
 	top:10,
@@ -51,7 +55,28 @@
 	width:Ti.UI.FILL,
 	title:L('signup'),
 	color:"black"
-}
+},
+"#otpFormContainer":{
+	layout:"vertical",
+	left:10,
+	right:10,
+	//width:Ti.UI.FILL,
+	height:Ti.UI.SIZE,
+	backgroundColor:"white",
+	visible:false,
+},
+"#otpTextField":{
+	top:10,
+	hintText:L('enter_otp'),
+	maxLength:6,
+	keyboardType:Titanium.UI.KEYBOARD_NUMBER_PAD
+},
+"#doneButton":{
+	top:15,
+	width:Ti.UI.FILL,
+	title:L('done'),
+	color:"black"
+},
 
 
 

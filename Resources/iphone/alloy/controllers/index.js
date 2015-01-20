@@ -9,7 +9,9 @@ function __processArg(obj, key) {
 
 function Controller() {
     function onSignUpButtonClick() {
-        registerView = Alloy.createController("register").getView();
+        registerView = Alloy.createController("register", {
+            progressIndicator: $.progressIndicator
+        }).getView();
         if ("iphone" == Titanium.Platform.osname) {
             var win = Ti.UI.createWindow();
             win.add(registerView);
@@ -59,6 +61,12 @@ function Controller() {
         title: "Login",
         backgroundColor: "white"
     });
+    $.__views.progressIndicator = Ti.UI.createActivityIndicator({
+        message: L("wait"),
+        cancelable: true,
+        id: "progressIndicator"
+    });
+    $.__views.navRootWin.add($.__views.progressIndicator);
     $.__views.navWin = Ti.UI.iOS.createNavigationWindow({
         window: $.__views.navRootWin,
         id: "navWin"
@@ -69,6 +77,7 @@ function Controller() {
     var registerView;
     var loginView;
     loginView = Alloy.createController("login", {
+        progressIndicator: $.progressIndicator,
         callBacks: {
             signUpCallback: onSignUpButtonClick,
             enableHomeUpButtonCallback: enableHomeUpButton,

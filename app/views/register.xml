@@ -8,5 +8,9 @@
 			<TextField id="locationTextField"  />
 			<Button id="signupButton" onClick="onSignUpButtonClick"/>
 		</View>
+		<View id="otpFormContainer">
+			<TextField id="otpTextField"  />
+			<Button id="doneButton" onClick="onDoneButtonClick"/>
+		</View>
 	</View>
 </Alloy>

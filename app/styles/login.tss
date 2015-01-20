@@ -12,6 +12,12 @@
 },
 
 ".container": {},
+"#carRentalImageView":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top: 10,
+	image:"/car_rantal_login_logo.png"
+},
 "#loginParentView":{
 	width:Ti.UI.FILL,
 	height:Ti.UI.FILL
@@ -23,6 +29,13 @@
 	height: Ti.UI.SIZE,
 	layout: 'vertical'
 },
+"#loginFormContainer[platform=ios]":{
+	top:140,
+	left: 10,
+	right: 10,
+	height: Ti.UI.SIZE,
+	layout: 'vertical'
+}
 
 "#userNameTextField": {
 	borderStyle: "Ti.UI.INPUT_BORDERSTYLE_ROUNDED",
@@ -49,10 +62,24 @@
 	title: "Login",
 	color: "black"
 },
+"#loginButton[platform=ios]":{
+	top: 10,
+	width: "100%",
+	height: 40,
+	title: "Login",
+	color: "black"
+},
 "#signUpButton":{
 	top: 50,
 	width: "100%",
 	height: 60,
+	title: "SignUp",
+	color: "black"
+},
+"#signUpButton[platform=ios]":{
+	top: 10,
+	width: "100%",
+	height: 40,
 	title: "SignUp",
 	color: "black"
 }

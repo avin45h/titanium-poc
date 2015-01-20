@@ -1,0 +1,100 @@
+
+".container" : {
+  
+},
+"Label":{
+	color:"black"
+},
+"#detailsParentView":{
+	width:Ti.UI.FILL,
+	height:Ti.UI.FILL,
+	layout:"vertical",
+	backgroundColor:"white"
+},
+"#carImageView":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:20
+},
+"#cabDetailContainer":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:20,
+	layout:"vertical"
+},
+"#cabNameView":{
+    layout:"horizontal",
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:10
+},
+"#cabNameLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:0,
+	text:L("cab_name")
+},
+"#cabNameValueLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:10
+},
+"#cabDistanceView":{
+    layout:"horizontal",
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:10
+},
+"#cabDistanceLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:0,
+	text:L("cab_distance")
+},
+"#cabDistanceValueLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:10
+},
+"#driverNameView":{
+    layout:"horizontal",
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:10
+},
+"#driverNameLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:0,
+	text:L("driver_name")
+},
+"#driverNameValueLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:10
+},
+"#driverPhoneNumberView":{
+    layout:"horizontal",
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:10
+},
+"#driverPhoneNumberLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:0,
+	text:L("driver_phone_number")
+},
+"#driverPhoneNumberValueLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:10
+},
+"#bookButton":{
+	top:20,
+	left:0,
+	right:0,
+	height:60,
+	title:L("book"),
+	color:"white"
+}

@@ -106,6 +106,9 @@ function populateListView(){
             properties : {
                 itemId: cab.cabId,
                 accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE,
+                height:OS_IOS ? 80 : Ti.UI.SIZE,
+                selectedBackgroundColor : "blue",
+                touchEnabled:false,
             }
         });
     });

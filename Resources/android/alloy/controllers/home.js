@@ -38,7 +38,10 @@ function Controller() {
                 },
                 properties: {
                     itemId: cab.cabId,
-                    accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
+                    accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE,
+                    height: Ti.UI.SIZE,
+                    selectedBackgroundColor: "blue",
+                    touchEnabled: false
                 }
             });
         });

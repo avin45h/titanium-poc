@@ -9,33 +9,19 @@ function __processArg(obj, key) {
 
 function Controller() {
     function onMapViewClick(evt) {
-        Ti.API.info("Annotation " + JSON.stringify(evt));
         evt.source;
         evt.clicksource;
-        alert("********000****" + evt.clicksource == "leftButton********DDDD****");
-        Ti.API.info("********000****" + evt.clicksource == "leftButton********DDDD****");
-        Ti.API.info("********evt.clicksource***" + evt.clicksource);
-        if ("leftPane" == evt.clicksource || "leftButton" == evt.clicksource || "title" == evt.clicksource || "subtitle" == evt.clicksource) {
-            Ti.API.info("********evt.clicksourceEE***" + evt.clicksource);
-            openCabDetailsWindow(evt.annotation.index);
-        }
+        ("leftPane" == evt.clicksource || "leftButton" == evt.clicksource || "title" == evt.clicksource || "subtitle" == evt.clicksource) && openCabDetailsWindow(evt.annotation.index);
     }
     function onListViewItemClick(e) {
         openCabDetailsWindow(e.itemIndex);
     }
     function openCabDetailsWindow(index) {
-        Ti.API.info("********index***" + index);
         var details = Alloy.createController("cabDetails", {
             cabDetails: cabData.cabs[index]
         }).getView();
         var activeTab = $.mainWin.getActiveTab();
-        if ("cabsListTab" == activeTab.id) {
-            Ti.API.info("********indexXX***" + index);
-            $.cabsListTab.open(details);
-        } else if ("cabsMapTab" == activeTab.id) {
-            Ti.API.info("********indexEEE***" + index);
-            $.cabsMapTab.open(details);
-        }
+        "cabsListTab" == activeTab.id ? $.cabsListTab.open(details) : "cabsMapTab" == activeTab.id && $.cabsMapTab.open(details);
     }
     function populateListView() {
         var cabDataSet = [];
@@ -52,7 +38,10 @@ function Controller() {
                 },
                 properties: {
                     itemId: cab.cabId,
-                    accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE
+                    accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE,
+                    height: 80,
+                    selectedBackgroundColor: "red",
+                    touchEnabled: false
                 }
             });
         });

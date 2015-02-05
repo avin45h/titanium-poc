@@ -1,5 +1,6 @@
 <Alloy>
 	<Window id="mainWin" class="container">
+		<ProgressIndicator platform="android" ns="Ti.UI.Android" platform="android" id="progressIndicator"/>
 		<View id="detailsParentView" >
 			<ImageView id="carImageView"/>
 			<View id="cabDetailContainer">
@@ -19,7 +20,7 @@
 					<Label id="driverPhoneNumberLabel"  />
 					<Label id="driverPhoneNumberValueLabel"  onClick = "initiateCall"/>
 				</View>
-				<Button id="bookButton"/>
+				<Button id="bookButton" onClick="onBookClick"/>
 			</View>
 		</View>
 	</Window>

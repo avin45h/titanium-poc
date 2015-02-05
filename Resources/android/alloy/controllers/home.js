@@ -18,35 +18,44 @@ function Controller() {
     }
     function openCabDetailsWindow(index) {
         var details = Alloy.createController("cabDetails", {
-            cabDetails: cabData.cabs[index]
+            carDetails: _carData[index].carDetails
         }).getView();
         var activeTab = $.mainWin.getActiveTab();
         "cabsListTab" == activeTab.id ? $.cabsListTab.open(details) : "cabsMapTab" == activeTab.id && $.cabsMapTab.open(details);
     }
-    function populateListView() {
-        var cabDataSet = [];
-        _.each(cabData.cabs, function(cab) {
-            cabDataSet.push({
+    function populateListView(carData) {
+        _.each(carData, function(car) {
+            _carData.push({
                 cabName: {
-                    text: cab.cabName
+                    text: car.carname
                 },
                 distance: {
-                    text: cab.distance
+                    text: car.cartype
                 },
                 cabImage: {
-                    image: cab.cabImage
+                    image: car.carimageurl
                 },
                 properties: {
-                    itemId: cab.cabId,
                     accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE,
                     height: Ti.UI.SIZE,
                     selectedBackgroundColor: "blue",
                     touchEnabled: false
+                },
+                carDetails: {
+                    _id: car._id,
+                    carname: car.carname,
+                    cartype: car.cartype,
+                    vendornumber: car.vendornumber,
+                    vendorsite: car.vendorsite,
+                    longitude: car.longitude,
+                    latitude: car.latitude,
+                    bookstatus: car.bookstatus,
+                    carimageurl: car.carimageurl
                 }
             });
         });
         var cabListSection = Ti.UI.createListSection();
-        cabListSection.setItems(cabDataSet);
+        cabListSection.setItems(_carData);
         $.cabListView.sections = [ cabListSection ];
     }
     function addAnotationToMap() {
@@ -65,8 +74,30 @@ function Controller() {
         });
         $.mapview.annotations = cabAnnotations;
     }
+    function downloadCars() {
+        $.progressIndicator.show();
+        _http.request({
+            url: _url.cars,
+            type: Alloy.Globals.HTTP_REQUEST_TYPE_GET,
+            timeout: 6e4,
+            format: Alloy.Globals.DATA_FORMAT_JSON,
+            success: onHttpSuccess,
+            failure: onHttpFailure
+        });
+    }
+    function onHttpSuccess(e) {
+        populateListView(e);
+        $.progressIndicator.hide();
+        Ti.API.info("success Cars:********" + JSON.stringify(e));
+    }
+    function onHttpFailure(e) {
+        $.progressIndicator.hide();
+        Ti.API.info("failure Cars:********" + JSON.stringify(e));
+        alert("Car's data loading failed.");
+    }
     function init() {
         $.mainWin.orientationModes = [ Titanium.UI.PORTRAIT ];
+        downloadCars();
         populateListView();
         tiMap = require("ti.map");
         addAnotationToMap();
@@ -91,6 +122,10 @@ function Controller() {
     $.__views.cabsInListWin = Ti.UI.createWindow({
         id: "cabsInListWin"
     });
+    $.__views.progressIndicator = Ti.UI.Android.createProgressIndicator({
+        id: "progressIndicator"
+    });
+    $.__views.cabsInListWin.add($.__views.progressIndicator);
     var __alloyId1 = {};
     var __alloyId4 = [];
     var __alloyId5 = {
@@ -200,6 +235,9 @@ function Controller() {
     _.extend($, $.__views);
     var tiMap;
     var cabAnnotations = [];
+    var _url = require("url");
+    var _http = require("http");
+    var _carData = [];
     var cabData = {
         cabs: [ {
             cabId: "1",

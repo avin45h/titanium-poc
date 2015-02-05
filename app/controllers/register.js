@@ -1,5 +1,10 @@
 var args = arguments[0] || {};
 var utils = require("utils");
+var _http = require("http");
+var _latitude = "80.80";
+var _longitude = "90.90";
+var _user = require("user");
+
 if (OS_IOS) {
     var SMS = require('bencoding.sms').createSMSDialog({
         barColor : "#a22621"
@@ -13,34 +18,93 @@ init();
 function onSignUpButtonClick(e) {
     if (validateTextFields()) {
         args.progressIndicator.show();
-        setTimeout(function(){
-            args.progressIndicator.hide();
-            if (OS_ANDROID) {
-              openSmsDialogAndroid($.phoneNumberTextField.value, "Your OTP for Car Rental Aplication is:" + utils.getOTP());
+        var formData = {
+            profilename : $.profileNameTextField.value,
+            username : $.userNameTextField.value,
+            password : $.passwordTextField.value,
+            phonenumber : $.phoneNumberTextField.value,
+            email : $.emailIdTextField.value,
+            latitude : _latitude,
+            longitude : _longitude
+        };
+        // var params = {
+        // url : Alloy.Globals.baseURL,
+        // data : formData,
+        // success : onHttpSuccess,
+        // failure : onHttpFailure,
+        // format : Alloy.Globals.DATA_FORMAT_JSON,
+        // type : Alloy.Globals.HTTP_REQUEST_TYPE_POST,
+        // headers : [{
+        // name : "content-type",
+        // value : "application/json"
+        // }]
+        // };
+        var url = Ti.App.Properties.getString('baseURL');
+        var xhr = Titanium.Network.createHTTPClient();
+        xhr.onerror = onHttpFailure;
+        xhr.open("POST", url);
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.setRequestHeader("Accept-Encoding", "gzip");
+        Ti.API.info('Params' + JSON.stringify(formData));
+        xhr.send(JSON.stringify(formData));
+        xhr.onload = function() {
+            Ti.API.info('RAW =' + this.responseText);
+            if (this.status == '200') {
+                Ti.API.info('got my response, http status code ' + this.status);
+                if (this.readyState == 4) {
+                    var response = JSON.parse(this.responseText);
+                    Ti.API.info('Response = ' + response);
+                } else {
+                    alert('HTTP Ready State != 4');
+                }
+            } else if (this.status == '201') {
+                Ti.API.info('Response Code 201: New User Profile created');
+                onHttpSuccess(this.responseText);
+            } else {
+                alert('HTTP Error Response Status Code = ' + this.status);
+                Ti.API.error("Error =>" + this.response);
             }
-            setTimeout(function(){
-                $.signUpFormContainer.visible = false;
-                $.otpFormContainer.visible = true;
-            },utils.getRandomNumber(1,2)*1000);
-        },utils.getRandomNumber(2,4)*1000);
-        
+        };
     }
 }
 
 /**
+ * Success callback of the http request of registering user
+ */
+function onHttpSuccess(responseText) {
+    args.progressIndicator.hide();
+    _user.setUserProfile(responseText);
+    //if (OS_ANDROID) {
+       // openSmsDialogAndroid($.phoneNumberTextField.value, "Your OTP for Car Rental Aplication is:" + utils.getOTP());
+    //}
+    $.signUpFormContainer.visible = false;
+    $.otpFormContainer.visible = true;
+
+};
+
+/**
+ * Failure callback of http request of registering user
+ */
+function onHttpFailure(e) {
+    args.progressIndicator.hide();
+    Ti.API.error('Sever Error****' + JSON.stringify(e));
+    alert("Please enter a valid Username and Email Id" );
+};
+
+/**
  * called when user clicks Done button after filling up the OTP
  */
-function onDoneButtonClick(e){
+function onDoneButtonClick(e) {
     if ($.otpTextField.value != null && $.otpTextField.value.length == 0) {
         alert(L("enter_OTP"));
         return;
     }
     args.progressIndicator.show();
-    setTimeout(function(){
-           args.progressIndicator.hide();
-           var homeController = Alloy.createController("home").getView();
-           homeController.open(); 
-        },utils.getRandomNumber(2,4)*1000);
+    setTimeout(function() {
+        args.progressIndicator.hide();
+        var homeController = Alloy.createController("home").getView();
+        homeController.open();
+    }, utils.getRandomNumber(2, 4) * 1000);
 }
 
 /**
@@ -48,24 +112,28 @@ function onDoneButtonClick(e){
  */
 function validateTextFields() {
     if ($.profileNameTextField.value != null && $.profileNameTextField.value.length == 0) {
-        alert("Enter Profile Name");
+        alert("Please Enter Profile Name");
         return false;
     } else if ($.userNameTextField.value != null && $.userNameTextField.value.length == 0) {
-        alert("Enter User Name");
+        alert("Please Enter User Name");
+        return false;
+    } else if ($.passwordTextField.value != null && $.userNameTextField.value.length == 0) {
+        alert("Please Enter Password");
         return false;
     } else if ($.phoneNumberTextField.value != null && $.phoneNumberTextField.value.length == 0) {
-        alert("Enter Phone Number");
+        alert("Please Enter Phone Number");
         return false;
     } else if ($.emailIdTextField.value != null && $.emailIdTextField.value.length == 0) {
-        alert("Enter Email Address");
+        alert("Please Enter Email Id");
         return false;
-    } else if ($.locationTextField.value != null && $.locationTextField.value.length == 0) {
-        alert("Enter Location");
+    } else if(!utils.validateEmailId($.emailIdTextField.value)){
+        alert("Please Enter a Valid Email Id");
+        return false;
+    }else if ($.locationTextField.value != null && $.locationTextField.value.length == 0) {
+        alert("Please Enter Location");
         return false;
     }
-
     return true;
-
 }
 
 /**
@@ -145,6 +213,8 @@ function init() {
     location.getCurrentAddress(function(e) {
         if (e.result) {
             $.locationTextField.value = e.address;
+            _latitude = e.latitude;
+            _longitude = e.longitude;
         } else {
             //Could not find any address, please fill the address manually.
         }

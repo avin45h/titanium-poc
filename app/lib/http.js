@@ -93,7 +93,7 @@ exports.request = function(_params) {
 
 		if(_params.data) {
 			// send the data
-			Ti.API.info("data is " + _params.data);
+			Ti.API.info("data is " + JSON.stringify(_params.data));
 			xhr.send(_params.data);
 		} else {
 			xhr.send();

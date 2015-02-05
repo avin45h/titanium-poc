@@ -3,6 +3,7 @@
 		<View id="signUpFormContainer">
 			<TextField id="profileNameTextField"  />
 			<TextField id="userNameTextField"  />
+			<TextField id="passwordTextField"  />
 			<TextField id="phoneNumberTextField"  />
 			<TextField id="emailIdTextField"  />
 			<TextField id="locationTextField"  />

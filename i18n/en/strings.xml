@@ -12,6 +12,7 @@
 	<string name="sms_failure_message">This device doesn't support sending text messages</string>
 	<string name="enter_user_name">Please enter User Name</string>
 	<string name="enter_password">Please enter Password</string>
+	<string name="password">Password</string>
 	<string name="wait">Please Wait.....</string>
 	<string name="done">Done</string>
 	<string name="enter_otp">Enter your OTP here</string>
@@ -21,4 +22,5 @@
 	<string name="cab_distance">Cab Distance:</string>
 	<string name="driver_name">Driver Name:</string>
 	<string name="driver_phone_number">Driver Phone Number:</string>
+	<string name="enter_valid_email">Enter a valid email address</string>
 </resources>

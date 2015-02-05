@@ -15,6 +15,34 @@ function Controller() {
             $.mainWin.activity.actionBar.onHomeIconItemSelected = onHomeClick;
         }, 1500);
     }
+    function onBookClick() {
+        bookCar();
+    }
+    function bookCar() {
+        $.progressIndicator.show();
+        Ti.API.info("userName*******:" + _user.getUserProfileProperty(Alloy.Globals.USER_NAME));
+        _http.request({
+            url: _url.cars + "/" + args.carDetails.carname + "/book",
+            type: Alloy.Globals.HTTP_REQUEST_TYPE_POST,
+            data: {
+                username: _user.getUserProfileProperty(Alloy.Globals.USER_NAME)
+            },
+            timeout: 6e4,
+            format: Alloy.Globals.DATA_FORMAT_JSON,
+            success: onHttpCabBookSuccess,
+            failure: onHttpCabBookFailure
+        });
+    }
+    function onHttpCabBookSuccess(e) {
+        $.progressIndicator.hide();
+        Ti.API.info("success CarBook:********" + JSON.stringify(e));
+        alert("Congratulations!\nYour cab has been booked successfully.");
+    }
+    function onHttpCabBookFailure(e) {
+        $.progressIndicator.hide();
+        Ti.API.info("failure CarBook:********" + JSON.stringify(e));
+        alert("CarBook failed. Please try again.");
+    }
     function initiateCall(e) {
         Titanium.Platform.openURL("tel:" + e.source.text);
     }
@@ -23,11 +51,11 @@ function Controller() {
     }
     function init() {
         enableHomeUpButton();
-        $.carImageView.image = args.cabDetails.cabImage;
-        $.cabNameValueLabel.text = args.cabDetails.cabName;
-        $.cabDistanceValueLabel.text = args.cabDetails.distance;
-        $.driverNameValueLabel.text = args.cabDetails.cabDriverName;
-        $.driverPhoneNumberValueLabel.text = args.cabDetails.cabDriverMobile;
+        $.carImageView.image = args.carDetails.carimageurl;
+        $.cabNameValueLabel.text = args.carDetails.carname;
+        $.cabDistanceValueLabel.text = args.carDetails.cartype;
+        $.driverNameValueLabel.text = args.carDetails.vendorsite;
+        $.driverPhoneNumberValueLabel.text = args.carDetails.vendornumber;
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "cabDetails";
@@ -49,6 +77,10 @@ function Controller() {
         id: "mainWin"
     });
     $.__views.mainWin && $.addTopLevelView($.__views.mainWin);
+    $.__views.progressIndicator = Ti.UI.Android.createProgressIndicator({
+        id: "progressIndicator"
+    });
+    $.__views.mainWin.add($.__views.progressIndicator);
     $.__views.detailsParentView = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
@@ -183,11 +215,17 @@ function Controller() {
         id: "bookButton"
     });
     $.__views.cabDetailContainer.add($.__views.bookButton);
+    onBookClick ? $.__views.bookButton.addEventListener("click", onBookClick) : __defers["$.__views.bookButton!click!onBookClick"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
+    Ti.API.info("args********:" + JSON.stringify(args));
+    var _http = require("http");
+    var _url = require("url");
+    var _user = require("user");
     init();
     __defers["$.__views.driverPhoneNumberValueLabel!click!initiateCall"] && $.__views.driverPhoneNumberValueLabel.addEventListener("click", initiateCall);
+    __defers["$.__views.bookButton!click!onBookClick"] && $.__views.bookButton.addEventListener("click", onBookClick);
     _.extend($, exports);
 }
 

@@ -13,6 +13,7 @@
     <analytics>true</analytics>
     <guid>25a4d728-bca5-4782-a6f8-024a02544c16</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
+    <property name="baseURL" type="string">https://lit-chamber-6827.herokuapp.com/users/</property>
     <ios>
         <plist>
             <dict>
@@ -40,6 +41,9 @@
     </ios>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
         <manifest>
+        	<application android:debuggable="true">
+        		
+        	</application>
             <uses-permission android:name="android.permission.INTERNET"/>
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
             <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>

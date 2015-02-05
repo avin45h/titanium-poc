@@ -35,6 +35,10 @@
 	top:10,
 	hintText:L('user_name'),
 },
+"#passwordTextField":{
+	top:10,
+	hintText:L('password'),
+},
 "#phoneNumberTextField":{
 	top:10,
 	hintText:L('phone_number'),

@@ -2,7 +2,9 @@
 //ti.Map module reference
 var tiMap;
 var cabAnnotations = [];
-
+var _url = require("url");
+var _http = require("http");
+var _carData = [];
 //Cab Data Sample
 var cabData = {
   "cabs":[
@@ -73,7 +75,8 @@ function onListViewItemClick(e){
  */
 function openCabDetailsWindow(index){
     
-    var details = Alloy.createController("cabDetails",{cabDetails:cabData.cabs[index]}).getView();
+    var details = Alloy.createController("cabDetails",{carDetails:_carData[index].carDetails}).getView();
+    //var details = Alloy.createController("cabDetails",{cabDetails:cabData.cabs[index]}).getView();
     var activeTab = $.mainWin.getActiveTab();
         if(activeTab.id == "cabsListTab"){
              $.cabsListTab.open(details);
@@ -95,25 +98,36 @@ function openCabDetailsWindow(index){
 /**
  * Method to populate list view of cabs
  */
-function populateListView(){
-    var cabDataSet = [];
-    _.each(cabData.cabs, function(cab){
-        cabDataSet.push({
-            cabName : { text: cab.cabName },
-            distance : { text : cab.distance },
-            cabImage : { image : cab.cabImage },
+function populateListView(carData){
+    //var cabDataSet = [];
+    _.each(carData, function(car){
+        _carData.push({
+            cabName : { text: car.carname },
+            distance : { text : car.cartype },
+            cabImage : { image : car.carimageurl },
             // Sets the regular list data properties
             properties : {
-                itemId: cab.cabId,
                 accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE,
                 height:OS_IOS ? 80 : Ti.UI.SIZE,
                 selectedBackgroundColor : "blue",
                 touchEnabled:false,
+            },
+            carDetails : {
+                _id: car._id,
+                carname:car.carname,
+                cartype : car.cartype,
+                vendornumber : car.vendornumber,
+                vendorsite : car.vendorsite,
+                longitude : car.longitude,
+                latitude : car.latitude,
+                bookstatus : car.bookstatus,
+                carimageurl:car.carimageurl
             }
         });
     });
     var cabListSection = Ti.UI.createListSection();
-    cabListSection.setItems(cabDataSet);
+    cabListSection.setItems(_carData);
+    //cabListSection.setItems(cabDataSet);
     $.cabListView.sections = [cabListSection];
 }
 
@@ -141,6 +155,48 @@ function addAnotationToMap(){
 }
 
 /**
+ * Function to download the cars list from the server.
+ */
+function downloadCars(){
+    if(OS_ANDROID){
+        $.progressIndicator.show();
+    }
+     _http.request({
+            url:_url.cars,
+            type:Alloy.Globals.HTTP_REQUEST_TYPE_GET,
+            timeout:60000,
+            format:Alloy.Globals.DATA_FORMAT_JSON,
+            success:onHttpSuccess,
+            failure:onHttpFailure
+        });
+};
+
+
+/**
+ * Success callback of the http request of registering user
+ */
+function onHttpSuccess(e) {
+    populateListView(e);
+    if(OS_ANDROID){
+        $.progressIndicator.hide();
+    }
+    Ti.API.info('success Cars:********'+JSON.stringify(e));
+    //var homeController = Alloy.createController("home").getView();
+    //homeController.open();
+};
+
+/**
+ * Failure callback of http request of registering user
+ */
+function onHttpFailure(e) {
+    if(OS_ANDROID){
+        $.progressIndicator.hide();
+    }
+    Ti.API.info('failure Cars:********'+JSON.stringify(e));
+    alert("Car's data loading failed.");
+};
+
+/**
  *Initialize the page 
  */
 
@@ -148,6 +204,7 @@ function init(){
     if(OS_ANDROID){
        $.mainWin.orientationModes = [Titanium.UI.PORTRAIT]; 
     }
+    downloadCars();
     populateListView();
     tiMap = require('ti.map');
     addAnotationToMap();

@@ -34,4 +34,21 @@
 	},
 	left: 120,
 	bottom: 20
+},
+"MenuItem": {
+    showAsAction: Ti.Android.SHOW_AS_ACTION_IF_ROOM
+},
+"#userProfile": {
+    //icon: Ti.Android.R.drawable.ic_menu_preferences
+    title : "User Profile"
+},
+"#bookedCabs": {
+    //icon: Ti.Android.R.drawable.ic_menu_search
+    title : "Booked Cabs"
+},
+"#actionbar": {
+	title: "Booked Cabs",
+    icon: "/actionicon.png",
+    displayHomeAsUp: true,
+    backgroundImage: "/actionbackground.png"
 }

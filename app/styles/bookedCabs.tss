@@ -1,0 +1,34 @@
+"#bookedCabsWin":{
+	backgroundColor : "white"
+},
+"#cabImage": {
+	top: 10,
+	width: 100,
+	height: 60,
+	left: 10,
+	bottom: 10
+},
+"#cabName": {
+	color: 'black',
+	font: {
+		fontFamily: 'Arial',
+		fontSize: '20dp',
+		fontWeight: 'bold'
+	},
+	left: 120,
+	top: 20
+},
+"#distance": {
+	color: 'gray',
+	font: {
+		fontFamily: 'Arial',
+		fontSize: '14dp'
+	},
+	left: 120,
+	bottom: 20
+},
+"#actionbar": {
+    icon: "/actionicon.png",
+    displayHomeAsUp: true,
+    backgroundImage: "/actionbackground.png"
+}

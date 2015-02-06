@@ -1,5 +1,9 @@
 <Alloy>
 	<TabGroup id="mainWin" backgroundColor="white" >
+        <Menu>
+            <MenuItem id="userProfile"  onClick="onUserProfileClick"/>
+            <MenuItem id="bookedCabs"   onClick="onBookedCabsClick"/>
+        </Menu>
 		<Tab id="cabsListTab" title="Cab List" icon="KS_nav_views.png">
 			<Window id="cabsInListWin" >
 				<ProgressIndicator platform="android" ns="Ti.UI.Android" platform="android" id="progressIndicator"/>

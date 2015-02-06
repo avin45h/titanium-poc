@@ -50,6 +50,7 @@ function Controller() {
         $.mainWin.close();
     }
     function init() {
+        $.mainWin.orientationModes = [ Titanium.UI.PORTRAIT ];
         enableHomeUpButton();
         $.carImageView.image = args.carDetails.carimageurl;
         $.cabNameValueLabel.text = args.carDetails.carname;

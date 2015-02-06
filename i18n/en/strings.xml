@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 	<string name="app_name">CarRentalApp</string>
+	<string name="booked_cabs">Booked Cabs</string>
 	<string name="profile_name">Profile Name</string>
 	<string name="user_name">User Name</string>
 	<string name="phone_number">Phone Number</string>

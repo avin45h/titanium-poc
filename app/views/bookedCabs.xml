@@ -1,0 +1,15 @@
+<Alloy>
+	<Window id="bookedCabsWin" >
+		<ProgressIndicator platform="android" ns="Ti.UI.Android" id="progressIndicator"/>
+		<ActionBar id="actionbar"  onHomeIconItemSelected="onHomeIconItemSelected" />
+		<ListView id="cabListView" defaultItemTemplate="template" onItemclick="onListViewItemClick">
+			<Templates>
+				<ItemTemplate name="template">
+					<ImageView bindId="cabImage" id="cabImage" />
+					<Label bindId="cabName" id="cabName" />
+					<Label bindId="distance" id="distance" />
+				</ItemTemplate>
+			</Templates>
+		</ListView>
+	</Window>
+</Alloy>

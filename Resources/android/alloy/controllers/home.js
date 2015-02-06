@@ -8,6 +8,31 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
+    function __alloyId20() {
+        $.__views.mainWin.removeEventListener("open", __alloyId20);
+        if ($.__views.mainWin.activity) $.__views.mainWin.activity.onCreateOptionsMenu = function(e) {
+            var __alloyId18 = {
+                showAsAction: Ti.Android.SHOW_AS_ACTION_IF_ROOM,
+                title: "User Profile",
+                id: "userProfile"
+            };
+            $.__views.userProfile = e.menu.add(_.pick(__alloyId18, Alloy.Android.menuItemCreateArgs));
+            $.__views.userProfile.applyProperties(_.omit(__alloyId18, Alloy.Android.menuItemCreateArgs));
+            onUserProfileClick ? $.__views.userProfile.addEventListener("click", onUserProfileClick) : __defers["$.__views.userProfile!click!onUserProfileClick"] = true;
+            var __alloyId19 = {
+                showAsAction: Ti.Android.SHOW_AS_ACTION_IF_ROOM,
+                title: "Booked Cabs",
+                id: "bookedCabs"
+            };
+            $.__views.bookedCabs = e.menu.add(_.pick(__alloyId19, Alloy.Android.menuItemCreateArgs));
+            $.__views.bookedCabs.applyProperties(_.omit(__alloyId19, Alloy.Android.menuItemCreateArgs));
+            onBookedCabsClick ? $.__views.bookedCabs.addEventListener("click", onBookedCabsClick) : __defers["$.__views.bookedCabs!click!onBookedCabsClick"] = true;
+        }; else {
+            Ti.API.warn("You attempted to attach an Android Menu to a lightweight Window");
+            Ti.API.warn("or other UI component which does not have an Android activity.");
+            Ti.API.warn("Android Menus can only be opened on TabGroups and heavyweight Windows.");
+        }
+    }
     function onMapViewClick(evt) {
         evt.source;
         evt.clicksource;
@@ -15,6 +40,11 @@ function Controller() {
     }
     function onListViewItemClick(e) {
         openCabDetailsWindow(e.itemIndex);
+    }
+    function onUserProfileClick() {}
+    function onBookedCabsClick() {
+        var details = Alloy.createController("bookedCabs").getView();
+        details.open();
     }
     function openCabDetailsWindow(index) {
         var details = Alloy.createController("cabDetails", {
@@ -58,21 +88,35 @@ function Controller() {
         cabListSection.setItems(_carData);
         $.cabListView.sections = [ cabListSection ];
     }
-    function addAnotationToMap() {
-        _.each(cabData.cabs, function(cab) {
-            var cabAnnotation = tiMap.createAnnotation({
-                leftButton: cab.cabImage,
-                latitude: cab.latitude,
-                longitude: cab.longitude,
-                title: cab.cabName,
-                subtitle: cab.distance,
-                pincolor: tiMap.ANNOTATION_RED,
-                cabId: cab.cabId
+    function addAnotationToMap(carData) {
+        Ti.API.info("addAnotationToMap****:" + JSON.stringify(carData));
+        Ti.API.info("addAnotationToMapLength****:" + carData.length);
+        _.each(carData, function(car) {
+            var cabAnnotation = _tiMap.createAnnotation({
+                leftButton: car.carimageurl,
+                latitude: car.latitude,
+                longitude: car.longitude,
+                title: car.carname,
+                pincolor: _tiMap.ANNOTATION_RED,
+                _id: car._id,
+                carDetails: {
+                    _id: car._id,
+                    carname: car.carname,
+                    cartype: car.cartype,
+                    vendornumber: car.vendornumber,
+                    vendorsite: car.vendorsite,
+                    longitude: car.longitude,
+                    latitude: car.latitude,
+                    bookstatus: car.bookstatus,
+                    carimageurl: car.carimageurl
+                }
             });
             cabAnnotation.index = cabAnnotations.length;
             cabAnnotations[cabAnnotations.length] = cabAnnotation;
         });
         $.mapview.annotations = cabAnnotations;
+        Ti.API.info("mapview****:" + JSON.stringify($.mapview));
+        Ti.API.info("cabAnnotations****:" + JSON.stringify(cabAnnotations));
     }
     function downloadCars() {
         $.progressIndicator.show();
@@ -87,6 +131,7 @@ function Controller() {
     }
     function onHttpSuccess(e) {
         populateListView(e);
+        addAnotationToMap(e);
         $.progressIndicator.hide();
         Ti.API.info("success Cars:********" + JSON.stringify(e));
     }
@@ -98,9 +143,6 @@ function Controller() {
     function init() {
         $.mainWin.orientationModes = [ Titanium.UI.PORTRAIT ];
         downloadCars();
-        populateListView();
-        tiMap = require("ti.map");
-        addAnotationToMap();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "home";
@@ -118,7 +160,7 @@ function Controller() {
     var $ = this;
     var exports = {};
     var __defers = {};
-    var __alloyId0 = [];
+    var __alloyId8 = [];
     $.__views.cabsInListWin = Ti.UI.createWindow({
         id: "cabsInListWin"
     });
@@ -126,9 +168,9 @@ function Controller() {
         id: "progressIndicator"
     });
     $.__views.cabsInListWin.add($.__views.progressIndicator);
-    var __alloyId1 = {};
-    var __alloyId4 = [];
-    var __alloyId5 = {
+    var __alloyId9 = {};
+    var __alloyId12 = [];
+    var __alloyId13 = {
         type: "Ti.UI.ImageView",
         bindId: "cabImage",
         properties: {
@@ -140,8 +182,8 @@ function Controller() {
             bindId: "cabImage"
         }
     };
-    __alloyId4.push(__alloyId5);
-    var __alloyId6 = {
+    __alloyId12.push(__alloyId13);
+    var __alloyId14 = {
         type: "Ti.UI.Label",
         bindId: "cabName",
         properties: {
@@ -156,8 +198,8 @@ function Controller() {
             bindId: "cabName"
         }
     };
-    __alloyId4.push(__alloyId6);
-    var __alloyId7 = {
+    __alloyId12.push(__alloyId14);
+    var __alloyId15 = {
         type: "Ti.UI.Label",
         bindId: "distance",
         properties: {
@@ -171,16 +213,16 @@ function Controller() {
             bindId: "distance"
         }
     };
-    __alloyId4.push(__alloyId7);
-    var __alloyId3 = {
+    __alloyId12.push(__alloyId15);
+    var __alloyId11 = {
         properties: {
             name: "template"
         },
-        childTemplates: __alloyId4
+        childTemplates: __alloyId12
     };
-    __alloyId1["template"] = __alloyId3;
+    __alloyId9["template"] = __alloyId11;
     $.__views.cabListView = Ti.UI.createListView({
-        templates: __alloyId1,
+        templates: __alloyId9,
         id: "cabListView",
         defaultItemTemplate: "template"
     });
@@ -192,7 +234,7 @@ function Controller() {
         title: "Cab List",
         icon: "KS_nav_views.png"
     });
-    __alloyId0.push($.__views.cabsListTab);
+    __alloyId8.push($.__views.cabsListTab);
     $.__views.cabsInMapWin = Ti.UI.createWindow({
         id: "cabsInMapWin"
     });
@@ -202,7 +244,7 @@ function Controller() {
         color: "#999"
     });
     $.__views.cabsInMapWin.add($.__views.label2);
-    var __alloyId8 = [];
+    var __alloyId16 = [];
     $.__views.mapview = require("ti.map").createView({
         region: {
             latitude: 28.535516,
@@ -213,7 +255,7 @@ function Controller() {
         animate: true,
         regionFit: true,
         userLocation: true,
-        annotations: __alloyId8,
+        annotations: __alloyId16,
         id: "mapview"
     });
     $.__views.cabsInMapWin.add($.__views.mapview);
@@ -224,59 +266,26 @@ function Controller() {
         title: "Show on Map",
         icon: "KS_nav_views.png"
     });
-    __alloyId0.push($.__views.cabsMapTab);
+    __alloyId8.push($.__views.cabsMapTab);
     $.__views.mainWin = Ti.UI.createTabGroup({
-        tabs: __alloyId0,
+        tabs: __alloyId8,
         id: "mainWin",
         backgroundColor: "white"
     });
+    $.__views.mainWin.addEventListener("open", __alloyId20);
     $.__views.mainWin && $.addTopLevelView($.__views.mainWin);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    var tiMap;
     var cabAnnotations = [];
     var _url = require("url");
     var _http = require("http");
+    var _tiMap = require("ti.map");
     var _carData = [];
-    var cabData = {
-        cabs: [ {
-            cabId: "1",
-            cabName: "Maruti Suzuki",
-            cabNumber: "DL A 1234",
-            cabImage: "http://static.ibnlive.in.com/ibnlive/pix/sitepix/08_2011/new-maruti-suzuki-swift-170811.jpg",
-            cabDriverId: "1",
-            cabDriverName: "Surender",
-            cabDriverMobile: "1234567890",
-            latitude: "28.535516",
-            longitude: "77.391026",
-            distance: "5.0 km"
-        }, {
-            cabId: "2",
-            cabName: "Maruti VAN",
-            cabNumber: "DL B 1234",
-            cabImage: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcReJDxGOr9Ic2b_rzYR6ygW25BaRKnCCOdVuKOTgfqmHxE6I1-ytg",
-            cabDriverId: "1",
-            cabDriverName: "Rajender",
-            cabDriverMobile: "1234567890",
-            latitude: "28.537692",
-            longitude: "77.396010",
-            distance: "10.0 km"
-        }, {
-            cabId: "3",
-            cabName: "Honda City",
-            cabNumber: "DL C 1234",
-            cabImage: "http://indianautosblog.com/wp-content/uploads/2014/03/2014-Honda-City-at-Bangkok-Motor-Show-front-quarter-50x50.jpg",
-            cabDriverId: "1",
-            cabDriverName: "Rajesh",
-            cabDriverMobile: "1234567890",
-            latitude: "28.542464",
-            longitude: "77.388275",
-            distance: "3.0 km"
-        } ]
-    };
     init();
     __defers["$.__views.cabListView!itemclick!onListViewItemClick"] && $.__views.cabListView.addEventListener("itemclick", onListViewItemClick);
     __defers["$.__views.mapview!click!onMapViewClick"] && $.__views.mapview.addEventListener("click", onMapViewClick);
+    __defers["$.__views.userProfile!click!onUserProfileClick"] && $.__views.userProfile.addEventListener("click", onUserProfileClick);
+    __defers["$.__views.bookedCabs!click!onBookedCabsClick"] && $.__views.bookedCabs.addEventListener("click", onBookedCabsClick);
     _.extend($, exports);
 }
 

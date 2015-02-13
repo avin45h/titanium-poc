@@ -2,14 +2,18 @@
 	<Window id="bookedCabsWin" >
 		<ProgressIndicator platform="android" ns="Ti.UI.Android" id="progressIndicator"/>
 		<ActionBar id="actionbar"  onHomeIconItemSelected="onHomeIconItemSelected" />
-		<ListView id="cabListView" defaultItemTemplate="template" onItemclick="onListViewItemClick">
+		<ListView id="cabListView" defaultItemTemplate="template" onItemclick="onListViewItemClick" separatorColor="black">
 			<Templates>
 				<ItemTemplate name="template">
 					<ImageView bindId="cabImage" id="cabImage" />
 					<Label bindId="cabName" id="cabName" />
-					<Label bindId="distance" id="distance" />
+					<Label bindId="cabType" id="cabType" />
 				</ItemTemplate>
 			</Templates>
+			<FooterView>
+                <View backgroundColor="#000000" height="1px" width="100%"/>
+            </FooterView>
 		</ListView>
+		
 	</Window>
 </Alloy>

@@ -1,12 +1,13 @@
 "#bookedCabsWin":{
-	backgroundColor : "white"
+	backgroundColor: "white"
+},
+"#progressIndicator":{
+	message:L("wait")
 },
 "#cabImage": {
-	top: 10,
-	width: 100,
-	height: 60,
-	left: 10,
-	bottom: 10
+	width: 72,
+	height: 72,
+	left: 0
 },
 "#cabName": {
 	color: 'black',
@@ -16,19 +17,19 @@
 		fontWeight: 'bold'
 	},
 	left: 120,
-	top: 20
+	top: 15
 },
-"#distance": {
+"#cabType": {
 	color: 'gray',
 	font: {
 		fontFamily: 'Arial',
 		fontSize: '14dp'
 	},
 	left: 120,
-	bottom: 20
+	bottom: 15
 },
 "#actionbar": {
-    icon: "/actionicon.png",
-    displayHomeAsUp: true,
-    backgroundImage: "/actionbackground.png"
+	icon: "/actionicon.png",
+	displayHomeAsUp: true,
+	backgroundImage: "/actionbackground.png"
 }

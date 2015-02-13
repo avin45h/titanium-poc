@@ -1,0 +1,72 @@
+"#cabBookInputParentView":{
+	width:Ti.UI.FILL,
+	height:Ti.UI.FILL,
+	layout:"vertical",
+	backgroundColor:"white"
+},
+"#cabBookInputContainer":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:20,
+	layout:"vertical"
+},
+"#cabSourceView":{
+	layout:"horizontal",
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:10
+},
+"#cabSourceLabel":{
+	width:80,
+	text:"Source:"
+},
+"#sourcePicker":{
+	color:"black",
+	//useSpinner:"false"
+},
+"#cabDestinationView":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:10,
+	layout:"horizontal"
+	
+},
+"#cabDestinationLabel":{
+	width:80,
+	text:"Destination:"
+},
+"#destinationPicker":{
+	color:"black",
+	useSpinner:"false"
+},
+"#cabImage": {
+	width: 72,
+	height: 72,
+	left: 0
+},
+"#cabName": {
+	color: 'black',
+	font: {
+		fontFamily: 'Arial',
+		fontSize: '20dp',
+		fontWeight: 'bold'
+	},
+	left: 120,
+	top: 15
+},
+"#cabType": {
+	color: 'gray',
+	font: {
+		fontFamily: 'Arial',
+		fontSize: '14dp'
+	},
+	left: 120,
+	bottom: 15
+},
+"#nextButton":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:10,
+	title:"Next",
+	visible:false
+}

@@ -11,14 +11,51 @@ function Controller() {
     function onSignUpButtonClick() {
         if (validateTextFields()) {
             args.progressIndicator.show();
-            setTimeout(function() {
-                args.progressIndicator.hide();
-                setTimeout(function() {
-                    $.signUpFormContainer.visible = false;
-                    $.otpFormContainer.visible = true;
-                }, 1e3 * utils.getRandomNumber(1, 2));
-            }, 1e3 * utils.getRandomNumber(2, 4));
+            var formData = {
+                profilename: $.profileNameTextField.value,
+                username: $.userNameTextField.value,
+                password: $.passwordTextField.value,
+                phonenumber: $.phoneNumberTextField.value,
+                email: $.emailIdTextField.value,
+                latitude: _latitude,
+                longitude: _longitude
+            };
+            var url = Ti.App.Properties.getString("baseURL");
+            var xhr = Titanium.Network.createHTTPClient();
+            xhr.onerror = onHttpFailure;
+            xhr.open("POST", url);
+            xhr.setRequestHeader("content-type", "application/json");
+            xhr.setRequestHeader("Accept-Encoding", "gzip");
+            Ti.API.info("Params" + JSON.stringify(formData));
+            xhr.send(JSON.stringify(formData));
+            xhr.onload = function() {
+                Ti.API.info("RAW =" + this.responseText);
+                if ("200" == this.status) {
+                    Ti.API.info("got my response, http status code " + this.status);
+                    if (4 == this.readyState) {
+                        var response = JSON.parse(this.responseText);
+                        Ti.API.info("Response = " + response);
+                    } else alert("HTTP Ready State != 4");
+                } else if ("201" == this.status) {
+                    Ti.API.info("Response Code 201: New User Profile created");
+                    onHttpSuccess(this.responseText);
+                } else {
+                    alert("HTTP Error Response Status Code = " + this.status);
+                    Ti.API.error("Error =>" + this.response);
+                }
+            };
         }
+    }
+    function onHttpSuccess(responseText) {
+        args.progressIndicator.hide();
+        _user.setUserProfile(responseText);
+        $.signUpFormContainer.visible = false;
+        $.otpFormContainer.visible = true;
+    }
+    function onHttpFailure(e) {
+        args.progressIndicator.hide();
+        Ti.API.error("Sever Error****" + JSON.stringify(e));
+        alert("Please enter a valid Username and Email Id");
     }
     function onDoneButtonClick() {
         if (null != $.otpTextField.value && 0 == $.otpTextField.value.length) {
@@ -34,23 +71,31 @@ function Controller() {
     }
     function validateTextFields() {
         if (null != $.profileNameTextField.value && 0 == $.profileNameTextField.value.length) {
-            alert("Enter Profile Name");
+            alert("Please Enter Profile Name");
             return false;
         }
         if (null != $.userNameTextField.value && 0 == $.userNameTextField.value.length) {
-            alert("Enter User Name");
+            alert("Please Enter User Name");
+            return false;
+        }
+        if (null != $.passwordTextField.value && 0 == $.userNameTextField.value.length) {
+            alert("Please Enter Password");
             return false;
         }
         if (null != $.phoneNumberTextField.value && 0 == $.phoneNumberTextField.value.length) {
-            alert("Enter Phone Number");
+            alert("Please Enter Phone Number");
             return false;
         }
         if (null != $.emailIdTextField.value && 0 == $.emailIdTextField.value.length) {
-            alert("Enter Email Address");
+            alert("Please Enter Email Id");
+            return false;
+        }
+        if (!utils.validateEmailId($.emailIdTextField.value)) {
+            alert("Please Enter a Valid Email Id");
             return false;
         }
         if (null != $.locationTextField.value && 0 == $.locationTextField.value.length) {
-            alert("Enter Location");
+            alert("Please Enter Location");
             return false;
         }
         return true;
@@ -58,7 +103,11 @@ function Controller() {
     function init() {
         var location = require("location");
         location.getCurrentAddress(function(e) {
-            e.result && ($.locationTextField.value = e.address);
+            if (e.result) {
+                $.locationTextField.value = e.address;
+                _latitude = e.latitude;
+                _longitude = e.longitude;
+            }
         });
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
@@ -113,6 +162,16 @@ function Controller() {
         id: "userNameTextField"
     });
     $.__views.signUpFormContainer.add($.__views.userNameTextField);
+    $.__views.passwordTextField = Ti.UI.createTextField({
+        width: Ti.UI.FILL,
+        height: Alloy.Globals.textFieldHeight,
+        color: "#000",
+        maxLength: 40,
+        top: 10,
+        hintText: L("password"),
+        id: "passwordTextField"
+    });
+    $.__views.signUpFormContainer.add($.__views.passwordTextField);
     $.__views.phoneNumberTextField = Ti.UI.createTextField({
         width: Ti.UI.FILL,
         height: Alloy.Globals.textFieldHeight,
@@ -192,6 +251,10 @@ function Controller() {
     _.extend($, $.__views);
     var args = arguments[0] || {};
     var utils = require("utils");
+    require("http");
+    var _latitude = "80.80";
+    var _longitude = "90.90";
+    var _user = require("user");
     require("bencoding.sms").createSMSDialog({
         barColor: "#a22621"
     });

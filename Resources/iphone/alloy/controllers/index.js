@@ -63,7 +63,7 @@ function Controller() {
     });
     $.__views.progressIndicator = Ti.UI.createActivityIndicator({
         message: L("wait"),
-        cancelable: true,
+        cancelable: false,
         id: "progressIndicator"
     });
     $.__views.navRootWin.add($.__views.progressIndicator);

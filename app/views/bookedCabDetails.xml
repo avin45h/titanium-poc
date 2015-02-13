@@ -1,0 +1,28 @@
+<Alloy>
+	<Window id="mainWin" class="container">
+		<ProgressIndicator platform="android" ns="Ti.UI.Android" platform="android" id="progressIndicator"/>
+		<View id="detailsParentView" >
+			<ImageView id="carImageView"/>
+			<View id="cabDetailContainer">
+				<View id="cabNameView">
+					<Label id="cabNameLabel"  />
+					<Label id="cabNameValueLabel"  />
+				</View>
+				<View id="cabTypeView">
+					<Label id="cabTypeLabel"  />
+					<Label id="cabTypeValueLabel"  />
+				</View>
+				<View id="driverNameView">
+					<Label id="driverNameLabel"  />
+					<Label id="driverNameValueLabel"  />
+				</View>
+				<View id="driverPhoneNumberView">
+					<Label id="driverPhoneNumberLabel"  />
+					<Label id="driverPhoneNumberValueLabel"  onClick = "initiateCall"/>
+				</View>
+				<Button id="editButton" onClick="onEditClick"/>
+				<Button id="cancelButton" onClick="onCancelClick"/>
+			</View>
+		</View>
+	</Window>
+</Alloy>

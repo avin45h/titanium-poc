@@ -1,21 +1,23 @@
 <Alloy>
 	<TabGroup id="mainWin" backgroundColor="white" >
-        <Menu>
-            <MenuItem id="userProfile"  onClick="onUserProfileClick"/>
-            <MenuItem id="bookedCabs"   onClick="onBookedCabsClick"/>
-        </Menu>
+		<Menu>
+			<MenuItem id="userProfile"  onClick="onUserProfileClick"/>
+			<MenuItem id="bookedCabs"   onClick="onBookedCabsClick"/>
+		</Menu>
 		<Tab id="cabsListTab" title="Cab List" icon="KS_nav_views.png">
 			<Window id="cabsInListWin" >
 				<ProgressIndicator platform="android" ns="Ti.UI.Android" platform="android" id="progressIndicator"/>
-				<ListView id="cabListView" defaultItemTemplate="template" onItemclick="onListViewItemClick">
+				<ListView id="cabListView" defaultItemTemplate="template" onItemclick="onListViewItemClick" separatorColor="black" >
 					<Templates>
 						<ItemTemplate name="template">
 							<ImageView bindId="cabImage" id="cabImage" />
 							<Label bindId="cabName" id="cabName" />
 							<Label bindId="distance" id="distance" />
 						</ItemTemplate>
-
 					</Templates>
+					<FooterView>
+						<View backgroundColor="#000000" height="1px" width="100%"/>
+					</FooterView>
 				</ListView>
 			</Window>
 		</Tab>

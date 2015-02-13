@@ -1,0 +1,98 @@
+
+".container" : {
+  
+},
+".colon_label" : {
+	text:":"
+},
+"Label":{
+	color:"black"
+},
+"#progressIndicator":{
+	message:L("wait")
+},
+"#detailsParentView":{
+	width:Ti.UI.FILL,
+	height:Ti.UI.FILL,
+	layout:"vertical",
+	backgroundColor:"white"
+},
+"#userImageView":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:20
+},
+"#userProfileContainer":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:20,
+	layout:"vertical"
+},
+"#userNameView":{
+    layout:"horizontal",
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:10
+},
+"#userNameLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:0,
+	text:L("user_name")
+},
+"#userNameValueLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:10
+},
+"#userEmailView":{
+    layout:"horizontal",
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:10
+},
+"#userEmailLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:0,
+	text:L("emailid")
+},
+"#userEmailValueLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:10
+},
+"#userProfileNameView":{
+    layout:"horizontal",
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:10
+},
+"#userProfileNameLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:0,
+	text:L("profile_name")
+},
+"#userProfileNameValueLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:10
+},
+"#userPhoneNumberView":{
+    layout:"horizontal",
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top:10
+},
+"#userPhoneNumberLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:0,
+	text:L("phone_number")
+},
+"#userPhoneNumberValueLabel":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	left:10
+}

@@ -3,6 +3,9 @@ Ti.API.info('args********:' + JSON.stringify(args));
 var _http = require("http");
 var _url = require("url");
 var _user = require("user");
+var _utils = require("utils");
+var _phoneNumber;
+
 init();
 
 /**
@@ -18,15 +21,32 @@ function enableHomeUpButton() {
 
 };
 
+function pickerValueChangedListener() {
+    Ti.API.info("User selected date: " + JSON.stringify(e));
+};
+
 /**
  * Will be called when user click the book button
  */
 function onBookClick(e) {
-    bookCar();
+    loadSourceAndDestination();
+    //TODO: Separate these two called and put at proper location
+    // bookCar();
+    $.bookButton.visible = false;
 };
 
 /**
  * Function to download the cars list from the server.
+ */
+function loadSourceAndDestination() {
+    var cabBookInputView = Alloy.createController("cabBookInput", {
+        progressIndicator : $.progressIndicator
+    }).getView();
+    $.cabBookingInputPageHolder.add(cabBookInputView);
+};
+
+/**
+ * Loads a list of source and destination and creates a spinner to choose source and destination
  */
 function bookCar() {
     if (OS_ANDROID) {
@@ -46,9 +66,11 @@ function bookCar() {
         success : onHttpCabBookSuccess,
         failure : onHttpCabBookFailure
     });
-};
+}
 
 /**
+
+ /**
  * Success callback of the http request of registering user
  */
 function onHttpCabBookSuccess(e) {
@@ -74,7 +96,8 @@ function onHttpCabBookFailure(e) {
  * Starts a call
  */
 function initiateCall(e) {
-    Titanium.Platform.openURL("tel:" + e.source.text);
+
+    Titanium.Platform.openURL("tel:" + _phoneNumber);
 };
 
 /**
@@ -98,7 +121,15 @@ function init() {
 
     $.carImageView.image = args.carDetails.carimageurl;
     $.cabNameValueLabel.text = args.carDetails.carname;
-    $.cabDistanceValueLabel.text = args.carDetails.cartype;
+    $.cabTypeValueLabel.text = args.carDetails.cartype;
     $.driverNameValueLabel.text = args.carDetails.vendorsite;
-    $.driverPhoneNumberValueLabel.text = args.carDetails.vendornumber;
+     _phoneNumber = args.carDetails.vendornumber;
+    //$.driverPhoneNumberValueLabel.text = args.carDetails.vendornumber;
+    if (OS_ANDROID) {
+        //$.driverPhoneNumberValueLabel.html = "<html><u>"+args.carDetails.vendornumber+"</u></html>";
+        $.driverPhoneNumberValueLabel.color = "blue";
+        $.driverPhoneNumberValueLabel.html = _utils.getUnderlinedString(_phoneNumber);
+    } else {
+        $.driverPhoneNumberValueLabel.text = _phoneNumber;
+    }
 };

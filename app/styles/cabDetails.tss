@@ -5,6 +5,16 @@
 "Label":{
 	color:"black"
 },
+"#progressIndicator":{
+	message:L("wait")
+},
+"#scrollView":{
+	showVerticalScrollIndicator:"true", 
+	showHorizontalScrollIndicator:"true",
+	height:"100%",
+	width:"100%"
+},
+
 "#detailsParentView":{
 	width:Ti.UI.FILL,
 	height:Ti.UI.FILL,
@@ -32,26 +42,26 @@
 	width:Ti.UI.SIZE,
 	height:Ti.UI.SIZE,
 	left:0,
-	text:L("cab_name")
+	text:"Cab Name:"
 },
 "#cabNameValueLabel":{
 	width:Ti.UI.SIZE,
 	height:Ti.UI.SIZE,
 	left:10
 },
-"#cabDistanceView":{
+"#cabTypeView":{
     layout:"horizontal",
 	width:Ti.UI.SIZE,
 	height:Ti.UI.SIZE,
 	top:10
 },
-"#cabDistanceLabel":{
+"#cabTypeLabel":{
 	width:Ti.UI.SIZE,
 	height:Ti.UI.SIZE,
 	left:0,
-	text:L("cab_distance")
+	text:"Car Type:"
 },
-"#cabDistanceValueLabel":{
+"#cabTypeValueLabel":{
 	width:Ti.UI.SIZE,
 	height:Ti.UI.SIZE,
 	left:10
@@ -66,7 +76,7 @@
 	width:Ti.UI.SIZE,
 	height:Ti.UI.SIZE,
 	left:0,
-	text:L("driver_name")
+	text:"Driver Name:"
 },
 "#driverNameValueLabel":{
 	width:Ti.UI.SIZE,
@@ -83,18 +93,24 @@
 	width:Ti.UI.SIZE,
 	height:Ti.UI.SIZE,
 	left:0,
-	text:L("driver_phone_number")
+	text:"Driver Phone Number:"
 },
 "#driverPhoneNumberValueLabel":{
 	width:Ti.UI.SIZE,
 	height:Ti.UI.SIZE,
-	left:10
+	left:10,
+	color:"blue",
+	html : "<html><u>9339873894</u></html>"
+},
+"#cabBookingInputPageHolder":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	borderColor:"white",
 },
 "#bookButton":{
 	top:20,
 	left:0,
 	right:0,
 	height:60,
-	title:L("book"),
-	color:"white"
+	title:L("book")
 }

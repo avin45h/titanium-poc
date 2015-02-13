@@ -27,7 +27,7 @@ function Controller() {
                 cabName: {
                     text: car.carname
                 },
-                distance: {
+                cabType: {
                     text: car.cartype
                 },
                 cabImage: {
@@ -81,7 +81,15 @@ function Controller() {
         Ti.API.info("failure Cars:********" + JSON.stringify(e));
         alert("Car's data loading failed.");
     }
-    function onListViewItemClick() {}
+    function onListViewItemClick(e) {
+        openBookedCabDetailsWindow(e.itemIndex);
+    }
+    function openBookedCabDetailsWindow(index) {
+        var details = Alloy.createController("bookedCabDetails", {
+            carDetails: _carData[index].carDetails
+        }).getView();
+        details.open();
+    }
     function onHomeIconItemSelected() {
         $.progressIndicator.hide();
         $.bookedCabsWin.close();
@@ -112,26 +120,31 @@ function Controller() {
     });
     $.__views.bookedCabsWin && $.addTopLevelView($.__views.bookedCabsWin);
     $.__views.progressIndicator = Ti.UI.Android.createProgressIndicator({
+        message: L("wait"),
         id: "progressIndicator"
     });
     $.__views.bookedCabsWin.add($.__views.progressIndicator);
     $.__views.bookedCabsWin.addEventListener("open", __alloyId0);
-    var __alloyId1 = {};
-    var __alloyId4 = [];
-    var __alloyId5 = {
+    $.__views.__alloyId2 = Ti.UI.createView({
+        backgroundColor: "#000000",
+        height: "1px",
+        width: "100%",
+        id: "__alloyId2"
+    });
+    var __alloyId3 = {};
+    var __alloyId6 = [];
+    var __alloyId7 = {
         type: "Ti.UI.ImageView",
         bindId: "cabImage",
         properties: {
-            top: 10,
-            width: 100,
-            height: 60,
-            left: 10,
-            bottom: 10,
+            width: 72,
+            height: 72,
+            left: 0,
             bindId: "cabImage"
         }
     };
-    __alloyId4.push(__alloyId5);
-    var __alloyId6 = {
+    __alloyId6.push(__alloyId7);
+    var __alloyId8 = {
         type: "Ti.UI.Label",
         bindId: "cabName",
         properties: {
@@ -142,14 +155,14 @@ function Controller() {
                 fontWeight: "bold"
             },
             left: 120,
-            top: 20,
+            top: 15,
             bindId: "cabName"
         }
     };
-    __alloyId4.push(__alloyId6);
-    var __alloyId7 = {
+    __alloyId6.push(__alloyId8);
+    var __alloyId9 = {
         type: "Ti.UI.Label",
-        bindId: "distance",
+        bindId: "cabType",
         properties: {
             color: "gray",
             font: {
@@ -157,22 +170,24 @@ function Controller() {
                 fontSize: "14dp"
             },
             left: 120,
-            bottom: 20,
-            bindId: "distance"
+            bottom: 15,
+            bindId: "cabType"
         }
     };
-    __alloyId4.push(__alloyId7);
-    var __alloyId3 = {
+    __alloyId6.push(__alloyId9);
+    var __alloyId5 = {
         properties: {
             name: "template"
         },
-        childTemplates: __alloyId4
+        childTemplates: __alloyId6
     };
-    __alloyId1["template"] = __alloyId3;
+    __alloyId3["template"] = __alloyId5;
     $.__views.cabListView = Ti.UI.createListView({
-        templates: __alloyId1,
+        templates: __alloyId3,
+        footerView: $.__views.__alloyId2,
         id: "cabListView",
-        defaultItemTemplate: "template"
+        defaultItemTemplate: "template",
+        separatorColor: "black"
     });
     $.__views.bookedCabsWin.add($.__views.cabListView);
     onListViewItemClick ? $.__views.cabListView.addEventListener("itemclick", onListViewItemClick) : __defers["$.__views.cabListView!itemclick!onListViewItemClick"] = true;

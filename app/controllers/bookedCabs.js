@@ -5,37 +5,43 @@ var _carData = [];
 
 //Initialize the page
 init();
- 
+
 /**
  * Method to populate list view of cabs
  */
-function populateListView(carData){
+function populateListView(carData) {
     //var cabDataSet = [];
-    _.each(carData, function(car){
+    _.each(carData, function(car) {
         _carData.push({
-            cabName : { text: car.carname },
-            distance : { text : car.cartype },
-            cabImage : { image : car.carimageurl },
+            cabName : {
+                text : car.carname
+            },
+            cabType : {
+                text : car.cartype
+            },
+            cabImage : {
+                image : car.carimageurl
+            },
             // Sets the regular list data properties
             properties : {
-                accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE,
-                height:OS_IOS ? 80 : Ti.UI.SIZE,
+                accessoryType : Ti.UI.LIST_ACCESSORY_TYPE_NONE,
+                height : OS_IOS ? 80 : Ti.UI.SIZE,
                 selectedBackgroundColor : "blue",
-                touchEnabled:false,
+                touchEnabled : false,
             },
             carDetails : {
-                _id: car._id,
-                createdAt:car.createdAt,
-                updatedAt:car.updatedAt,
-                carname:car.carname,
-                carimageurl:car.carimageurl,
+                _id : car._id,
+                createdAt : car.createdAt,
+                updatedAt : car.updatedAt,
+                carname : car.carname,
+                carimageurl : car.carimageurl,
                 cartype : car.cartype,
                 vendornumber : car.vendornumber,
                 vendorsite : car.vendorsite,
                 longitude : car.longitude,
                 latitude : car.latitude,
-                __v:car.__v,
-                userId:car.userId,
+                __v : car.__v,
+                userId : car.userId,
                 bookstatus : car.bookstatus,
             }
         });
@@ -45,8 +51,6 @@ function populateListView(carData){
     //cabListSection.setItems(cabDataSet);
     $.cabListView.sections = [cabListSection];
 };
-
-
 
 /*{
 "_id":"54d460578e47553d14b5b619",
@@ -64,73 +68,82 @@ function populateListView(carData){
 "bookstatus":true
 }*/
 
-
 /**
  * Function to download the cars list from the server.
  */
-function downloadCars(){
-    if(OS_ANDROID){
+function downloadCars() {
+    if (OS_ANDROID) {
         $.progressIndicator.show();
     }
-     _http.request({
-            //url:"https://lit-chamber-6827.herokuapp.com/user/Noor1/bookings"
-            url:_url.base+"user/"+_user.getUserProfileProperty(Alloy.Globals.USER_NAME)+"/bookings",
-            type:Alloy.Globals.HTTP_REQUEST_TYPE_GET,
-            timeout:60000,
-            format:Alloy.Globals.DATA_FORMAT_JSON,
-            success:onHttpSuccess,
-            failure:onHttpFailure
-        });
+    _http.request({
+        //url:"https://lit-chamber-6827.herokuapp.com/user/Noor1/bookings"
+        url : _url.base + "user/" + _user.getUserProfileProperty(Alloy.Globals.USER_NAME) + "/bookings",
+        type : Alloy.Globals.HTTP_REQUEST_TYPE_GET,
+        timeout : 60000,
+        format : Alloy.Globals.DATA_FORMAT_JSON,
+        success : onHttpSuccess,
+        failure : onHttpFailure
+    });
 };
-
 
 /**
  * Success callback of the http request of registering user
  */
 function onHttpSuccess(e) {
     populateListView(e);
-    if(OS_ANDROID){
+    if (OS_ANDROID) {
         $.progressIndicator.hide();
     }
-    Ti.API.info('success Cars:********'+JSON.stringify(e));
+    Ti.API.info('success Cars:********' + JSON.stringify(e));
 };
 
 /**
  * Failure callback of http request of registering user
  */
 function onHttpFailure(e) {
-    if(OS_ANDROID){
+    if (OS_ANDROID) {
         $.progressIndicator.hide();
     }
-    Ti.API.info('failure Cars:********'+JSON.stringify(e));
+    Ti.API.info('failure Cars:********' + JSON.stringify(e));
     alert("Car's data loading failed.");
 };
-
 
 /**
  * Will be called when an item of the list view will be clicked
  */
 function onListViewItemClick(e) {
-    //openCabDetailsWindow(e.itemIndex);
+    openBookedCabDetailsWindow(e.itemIndex);
+};
+
+/**
+ * Will open the booked cab details window
+ */
+function openBookedCabDetailsWindow(index) {
+    // var details = Alloy.createController("bookedCabDetails").getView();
+    // details.open();
+    var details = Alloy.createController("bookedCabDetails", {
+    carDetails : _carData[index].carDetails
+    }).getView();
+    details.open();
 };
 
 /**
  * Will be called when user clicks ActionBar home icon
  */
 function onHomeIconItemSelected() {
-    if(OS_ANDROID){
+    if (OS_ANDROID) {
         $.progressIndicator.hide();
     }
     $.bookedCabsWin.close();
 };
 
 /**
- *Initialize the page 
+ *Initialize the page
  */
 
-function init(){
-    if(OS_ANDROID){
-       $.bookedCabsWin.orientationModes = [Titanium.UI.PORTRAIT];
+function init() {
+    if (OS_ANDROID) {
+        $.bookedCabsWin.orientationModes = [Titanium.UI.PORTRAIT];
     }
     downloadCars();
 };

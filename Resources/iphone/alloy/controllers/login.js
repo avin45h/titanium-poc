@@ -14,12 +14,27 @@ function Controller() {
     function doLogin() {
         if (validateTextFields()) {
             args.progressIndicator.show();
-            setTimeout(function() {
-                args.progressIndicator.hide();
-                var homeController = Alloy.createController("home").getView();
-                homeController.open();
-            }, 1e3 * utils.getRandomNumber(2, 4));
+            _http.request({
+                url: Alloy.Globals.baseURL + $.userNameTextField.value,
+                type: Alloy.Globals.HTTP_REQUEST_TYPE_GET,
+                timeout: 3e4,
+                format: Alloy.Globals.DATA_FORMAT_JSON,
+                success: onHttpSuccess,
+                failure: onHttpFailure
+            });
         }
+    }
+    function onHttpSuccess(responseText) {
+        args.progressIndicator.hide();
+        _user.setUserProfile(responseText);
+        Ti.API.info("success:********" + JSON.stringify(responseText));
+        var homeController = Alloy.createController("home").getView();
+        homeController.open();
+    }
+    function onHttpFailure(e) {
+        args.progressIndicator.hide();
+        Ti.API.info("failure:********" + JSON.stringify(e));
+        alert("Please enter valid Username and Password");
     }
     function validateTextFields() {
         if (null != $.userNameTextField.value && 0 == $.userNameTextField.value.length) {
@@ -122,7 +137,9 @@ function Controller() {
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
-    var utils = require("utils");
+    require("utils");
+    var _http = require("http");
+    var _user = require("user");
     __defers["$.__views.loginButton!click!onSignInButtonClick"] && $.__views.loginButton.addEventListener("click", onSignInButtonClick);
     __defers["$.__views.signUpButton!click!onSignUpButtonClick"] && $.__views.signUpButton.addEventListener("click", onSignUpButtonClick);
     _.extend($, exports);

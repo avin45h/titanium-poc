@@ -3,7 +3,7 @@
 },
 "#progressIndicator":{
 	message:L("wait"), 
-	cancelable:true,
+	cancelable:false,
 }
 
 

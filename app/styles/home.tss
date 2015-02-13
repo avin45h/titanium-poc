@@ -10,11 +10,9 @@
 	userLocation: true
 },
 "#cabImage": {
-	top:10,
-	width: 100,
-	height: 60,
-	left: 10,
-	bottom:10
+	width: 72,
+	height: 72,
+	left: 0
 },
 "#cabName": {
 	color: 'black',
@@ -24,7 +22,7 @@
 		fontWeight: 'bold'
 	},
 	left: 120,
-	top: 20
+	top: 15
 },
 "#distance": {
 	color: 'gray',
@@ -33,7 +31,7 @@
 		fontSize: '14dp'
 	},
 	left: 120,
-	bottom: 20
+	bottom: 15
 },
 "MenuItem": {
     showAsAction: Ti.Android.SHOW_AS_ACTION_IF_ROOM

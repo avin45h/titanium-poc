@@ -1,0 +1,30 @@
+<Alloy>
+	<View id="cabBookInputParentView" >
+		<View id="cabBookInputContainer">
+			<View id="cabSourceView">
+				<Label id="cabSourceLabel"  />
+				<Picker id="sourcePicker" color="black" selectionIndicator="true" useSpinner="false" onChange="pickerValueChangedListener"></Picker>
+			</View>
+			<View id="cabDestinationView">
+				<Label id="cabDestinationLabel"  />
+				<Picker id="destinationPicker" onChange="pickerValueChangedListener" ></Picker>
+			</View>
+			<ListView id="availableCabsListView" defaultItemTemplate="template" onItemclick="onAvailableCabsListViewItemClick" separatorColor="black" >
+					<HeaderView>
+						<View backgroundColor="#000000" height="1dp" width="100%"/>
+					</HeaderView>
+				<Templates>
+					<ItemTemplate name="template">
+						<ImageView bindId="cabImage" id="cabImage" />
+						<Label bindId="cabName" id="cabName" />
+						<Label bindId="cabType" id="cabType" />
+					</ItemTemplate>
+				</Templates>
+				<FooterView>
+					<View backgroundColor="#000000" height="1dp" width="100%"/>
+				</FooterView>
+			</ListView>
+			<Button id="nextButton" onClick="onNextClick"/>
+		</View>
+	</View>
+</Alloy>

@@ -33,7 +33,8 @@ function onListViewItemClick(e) {
  * Will be called when user will press User Porfile action bar menu
  */
 function onUserProfileClick(e) {
-
+     var details = Alloy.createController("userProfile").getView();
+    details.open();
 };
 
 /**

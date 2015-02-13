@@ -1,1 +1,1 @@
-module.exports = [{"isClass":true,"priority":10000.0025,"key":"container","style":{backgroundColor:"white",}},{"isId":true,"priority":100000.0026,"key":"progressIndicator","style":{message:L("wait"),cancelable:true,}}];
+module.exports = [{"isApi":true,"priority":1000.0001,"key":"Label","style":{color:"black",}},{"isClass":true,"priority":10000.0069,"key":"container","style":{backgroundColor:"white",}},{"isId":true,"priority":100000.007,"key":"progressIndicator","style":{message:L("wait"),cancelable:false,}}];

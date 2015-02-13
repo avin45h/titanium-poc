@@ -37,7 +37,7 @@ exports.request = function(_params) {
         if (_params.headers) for (var i = 0, j = _params.headers.length; j > i; i++) xhr.setRequestHeader(_params.headers[i].name, _params.headers[i].value);
         xhr.setRequestHeader("Accept-Encoding", "gzip");
         if (_params.data) {
-            Ti.API.info("data is " + _params.data);
+            Ti.API.info("data is " + JSON.stringify(_params.data));
             xhr.send(_params.data);
         } else xhr.send();
     } else {

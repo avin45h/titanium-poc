@@ -15,3 +15,12 @@ exports.getOTP = function() {
 exports.getRandomNumber = function(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 };
+
+exports.validateEmailId = function(emailId) {
+    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    return reg.test(emailId);
+};
+
+exports.getUnderlinedString = function(input) {
+    return "<html><u>" + input + "</u></html>";
+};

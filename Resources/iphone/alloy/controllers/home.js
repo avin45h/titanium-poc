@@ -18,57 +18,97 @@ function Controller() {
     }
     function openCabDetailsWindow(index) {
         var details = Alloy.createController("cabDetails", {
-            cabDetails: cabData.cabs[index]
+            carDetails: _carData[index].carDetails
         }).getView();
         var activeTab = $.mainWin.getActiveTab();
         "cabsListTab" == activeTab.id ? $.cabsListTab.open(details) : "cabsMapTab" == activeTab.id && $.cabsMapTab.open(details);
     }
-    function populateListView() {
-        var cabDataSet = [];
-        _.each(cabData.cabs, function(cab) {
-            cabDataSet.push({
+    function populateListView(carData) {
+        _.each(carData, function(car) {
+            _carData.push({
                 cabName: {
-                    text: cab.cabName
+                    text: car.carname
                 },
                 distance: {
-                    text: cab.distance
+                    text: car.cartype
                 },
                 cabImage: {
-                    image: cab.cabImage
+                    image: car.carimageurl
                 },
                 properties: {
-                    itemId: cab.cabId,
                     accessoryType: Ti.UI.LIST_ACCESSORY_TYPE_NONE,
                     height: 80,
-                    selectedBackgroundColor: "red",
+                    selectedBackgroundColor: "blue",
                     touchEnabled: false
+                },
+                carDetails: {
+                    _id: car._id,
+                    carname: car.carname,
+                    cartype: car.cartype,
+                    vendornumber: car.vendornumber,
+                    vendorsite: car.vendorsite,
+                    longitude: car.longitude,
+                    latitude: car.latitude,
+                    bookstatus: car.bookstatus,
+                    carimageurl: car.carimageurl
                 }
             });
         });
         var cabListSection = Ti.UI.createListSection();
-        cabListSection.setItems(cabDataSet);
+        cabListSection.setItems(_carData);
         $.cabListView.sections = [ cabListSection ];
     }
-    function addAnotationToMap() {
-        _.each(cabData.cabs, function(cab) {
-            var cabAnnotation = tiMap.createAnnotation({
-                leftButton: cab.cabImage,
-                latitude: cab.latitude,
-                longitude: cab.longitude,
-                title: cab.cabName,
-                subtitle: cab.distance,
-                pincolor: tiMap.ANNOTATION_RED,
-                cabId: cab.cabId
+    function addAnotationToMap(carData) {
+        Ti.API.info("addAnotationToMap****:" + JSON.stringify(carData));
+        Ti.API.info("addAnotationToMapLength****:" + carData.length);
+        _.each(carData, function(car) {
+            var cabAnnotation = _tiMap.createAnnotation({
+                leftButton: car.carimageurl,
+                latitude: car.latitude,
+                longitude: car.longitude,
+                title: car.carname,
+                pincolor: _tiMap.ANNOTATION_RED,
+                _id: car._id,
+                carDetails: {
+                    _id: car._id,
+                    carname: car.carname,
+                    cartype: car.cartype,
+                    vendornumber: car.vendornumber,
+                    vendorsite: car.vendorsite,
+                    longitude: car.longitude,
+                    latitude: car.latitude,
+                    bookstatus: car.bookstatus,
+                    carimageurl: car.carimageurl
+                }
             });
             cabAnnotation.index = cabAnnotations.length;
             cabAnnotations[cabAnnotations.length] = cabAnnotation;
         });
         $.mapview.annotations = cabAnnotations;
+        Ti.API.info("mapview****:" + JSON.stringify($.mapview));
+        Ti.API.info("cabAnnotations****:" + JSON.stringify(cabAnnotations));
+    }
+    function downloadCars() {
+        _http.request({
+            url: _url.cars,
+            type: Alloy.Globals.HTTP_REQUEST_TYPE_GET,
+            timeout: 6e4,
+            format: Alloy.Globals.DATA_FORMAT_JSON,
+            success: onHttpSuccess,
+            failure: onHttpFailure
+        });
+    }
+    function onHttpSuccess(e) {
+        populateListView(e);
+        addAnotationToMap(e);
+        Ti.API.info("success Cars:********" + JSON.stringify(e));
+    }
+    function onHttpFailure(e) {
+        Ti.API.info("failure Cars:********" + JSON.stringify(e));
+        alert("Car's data loading failed.");
     }
     function init() {
-        populateListView();
-        tiMap = require("ti.map");
-        addAnotationToMap();
+        downloadCars();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "home";
@@ -86,26 +126,30 @@ function Controller() {
     var $ = this;
     var exports = {};
     var __defers = {};
-    var __alloyId0 = [];
+    var __alloyId20 = [];
     $.__views.cabsInListWin = Ti.UI.createWindow({
         id: "cabsInListWin"
     });
-    var __alloyId1 = {};
-    var __alloyId4 = [];
-    var __alloyId5 = {
+    $.__views.__alloyId22 = Ti.UI.createView({
+        backgroundColor: "#000000",
+        height: "1px",
+        width: "100%",
+        id: "__alloyId22"
+    });
+    var __alloyId23 = {};
+    var __alloyId26 = [];
+    var __alloyId27 = {
         type: "Ti.UI.ImageView",
         bindId: "cabImage",
         properties: {
-            top: 10,
-            width: 100,
-            height: 60,
-            left: 10,
-            bottom: 10,
+            width: 72,
+            height: 72,
+            left: 0,
             bindId: "cabImage"
         }
     };
-    __alloyId4.push(__alloyId5);
-    var __alloyId6 = {
+    __alloyId26.push(__alloyId27);
+    var __alloyId28 = {
         type: "Ti.UI.Label",
         bindId: "cabName",
         properties: {
@@ -116,12 +160,12 @@ function Controller() {
                 fontWeight: "bold"
             },
             left: 120,
-            top: 20,
+            top: 15,
             bindId: "cabName"
         }
     };
-    __alloyId4.push(__alloyId6);
-    var __alloyId7 = {
+    __alloyId26.push(__alloyId28);
+    var __alloyId29 = {
         type: "Ti.UI.Label",
         bindId: "distance",
         properties: {
@@ -131,22 +175,24 @@ function Controller() {
                 fontSize: "14dp"
             },
             left: 120,
-            bottom: 20,
+            bottom: 15,
             bindId: "distance"
         }
     };
-    __alloyId4.push(__alloyId7);
-    var __alloyId3 = {
+    __alloyId26.push(__alloyId29);
+    var __alloyId25 = {
         properties: {
             name: "template"
         },
-        childTemplates: __alloyId4
+        childTemplates: __alloyId26
     };
-    __alloyId1["template"] = __alloyId3;
+    __alloyId23["template"] = __alloyId25;
     $.__views.cabListView = Ti.UI.createListView({
-        templates: __alloyId1,
+        templates: __alloyId23,
+        footerView: $.__views.__alloyId22,
         id: "cabListView",
-        defaultItemTemplate: "template"
+        defaultItemTemplate: "template",
+        separatorColor: "black"
     });
     $.__views.cabsInListWin.add($.__views.cabListView);
     onListViewItemClick ? $.__views.cabListView.addEventListener("itemclick", onListViewItemClick) : __defers["$.__views.cabListView!itemclick!onListViewItemClick"] = true;
@@ -156,17 +202,17 @@ function Controller() {
         title: "Cab List",
         icon: "KS_nav_views.png"
     });
-    __alloyId0.push($.__views.cabsListTab);
+    __alloyId20.push($.__views.cabsListTab);
     $.__views.cabsInMapWin = Ti.UI.createWindow({
         id: "cabsInMapWin"
     });
     $.__views.label2 = Ti.UI.createLabel({
+        color: "#999",
         text: "I am Window 2",
-        id: "label2",
-        color: "#999"
+        id: "label2"
     });
     $.__views.cabsInMapWin.add($.__views.label2);
-    var __alloyId8 = [];
+    var __alloyId30 = [];
     $.__views.mapview = require("ti.map").createView({
         region: {
             latitude: 28.535516,
@@ -177,7 +223,7 @@ function Controller() {
         animate: true,
         regionFit: true,
         userLocation: true,
-        annotations: __alloyId8,
+        annotations: __alloyId30,
         id: "mapview"
     });
     $.__views.cabsInMapWin.add($.__views.mapview);
@@ -188,53 +234,20 @@ function Controller() {
         title: "Show on Map",
         icon: "KS_nav_views.png"
     });
-    __alloyId0.push($.__views.cabsMapTab);
+    __alloyId20.push($.__views.cabsMapTab);
     $.__views.mainWin = Ti.UI.createTabGroup({
-        tabs: __alloyId0,
+        tabs: __alloyId20,
         id: "mainWin",
         backgroundColor: "white"
     });
     $.__views.mainWin && $.addTopLevelView($.__views.mainWin);
     exports.destroy = function() {};
     _.extend($, $.__views);
-    var tiMap;
     var cabAnnotations = [];
-    var cabData = {
-        cabs: [ {
-            cabId: "1",
-            cabName: "Maruti Suzuki",
-            cabNumber: "DL A 1234",
-            cabImage: "http://static.ibnlive.in.com/ibnlive/pix/sitepix/08_2011/new-maruti-suzuki-swift-170811.jpg",
-            cabDriverId: "1",
-            cabDriverName: "Surender",
-            cabDriverMobile: "1234567890",
-            latitude: "28.535516",
-            longitude: "77.391026",
-            distance: "5.0 km"
-        }, {
-            cabId: "2",
-            cabName: "Maruti VAN",
-            cabNumber: "DL B 1234",
-            cabImage: "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcReJDxGOr9Ic2b_rzYR6ygW25BaRKnCCOdVuKOTgfqmHxE6I1-ytg",
-            cabDriverId: "1",
-            cabDriverName: "Rajender",
-            cabDriverMobile: "1234567890",
-            latitude: "28.537692",
-            longitude: "77.396010",
-            distance: "10.0 km"
-        }, {
-            cabId: "3",
-            cabName: "Honda City",
-            cabNumber: "DL C 1234",
-            cabImage: "http://indianautosblog.com/wp-content/uploads/2014/03/2014-Honda-City-at-Bangkok-Motor-Show-front-quarter-50x50.jpg",
-            cabDriverId: "1",
-            cabDriverName: "Rajesh",
-            cabDriverMobile: "1234567890",
-            latitude: "28.542464",
-            longitude: "77.388275",
-            distance: "3.0 km"
-        } ]
-    };
+    var _url = require("url");
+    var _http = require("http");
+    var _tiMap = require("ti.map");
+    var _carData = [];
     init();
     __defers["$.__views.cabListView!itemclick!onListViewItemClick"] && $.__views.cabListView.addEventListener("itemclick", onListViewItemClick);
     __defers["$.__views.mapview!click!onMapViewClick"] && $.__views.mapview.addEventListener("click", onMapViewClick);

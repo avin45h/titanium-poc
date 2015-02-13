@@ -57,7 +57,7 @@ function Controller() {
     $.__views.mainWin && $.addTopLevelView($.__views.mainWin);
     $.__views.progressIndicator = Ti.UI.Android.createProgressIndicator({
         message: L("wait"),
-        cancelable: true,
+        cancelable: false,
         id: "progressIndicator"
     });
     $.__views.mainWin.add($.__views.progressIndicator);

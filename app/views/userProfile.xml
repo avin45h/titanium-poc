@@ -1,0 +1,30 @@
+<Alloy>
+	<Window id="mainWin" class="container">
+		<ProgressIndicator platform="android" ns="Ti.UI.Android" platform="android" id="progressIndicator"/>
+		<View id="detailsParentView" >
+			<ImageView id="userImageView"/>
+			<View id="userProfileContainer">
+				<View id="userNameView">
+					<Label id="userNameLabel"  />
+					<Label class="colon_label"/>
+					<Label id="userNameValueLabel"  />
+				</View>
+				<View id="userEmailView">
+					<Label id="userEmailLabel"   />
+					<Label class="colon_label"/>
+					<Label id="userEmailValueLabel"  />
+				</View>
+				<View id="userProfileNameView">
+					<Label id="userProfileNameLabel"  />
+					<Label class="colon_label"/>
+					<Label id="userProfileNameValueLabel"  />
+				</View>
+				<View id="userPhoneNumberView">
+					<Label id="userPhoneNumberLabel" />
+					<Label class="colon_label"/>
+					<Label id="userPhoneNumberValueLabel"  onClick = "initiateCall"/>
+				</View>
+			</View>
+		</View>
+	</Window>
+</Alloy>

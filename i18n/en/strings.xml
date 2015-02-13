@@ -19,9 +19,14 @@
 	<string name="enter_otp">Enter your OTP here</string>
 	<string name="enter_OTP">Please enter your 6 digit OTP</string>
 	<string name="book">Book Now</string>
+	<string name="edit">Edit</string>
+	<string name="cancel">Cancel</string>
 	<string name="cab_name">Cab Name:</string>
 	<string name="cab_distance">Cab Distance:</string>
 	<string name="driver_name">Driver Name:</string>
 	<string name="driver_phone_number">Driver Phone Number:</string>
 	<string name="enter_valid_email">Enter a valid email address</string>
+	<string name="source">Source</string>
+	<string name="destination">Destination</string>
+	<string name="cab_type">Cab Type</string>
 </resources>

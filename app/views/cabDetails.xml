@@ -1,16 +1,17 @@
 <Alloy>
 	<Window id="mainWin" class="container">
 		<ProgressIndicator platform="android" ns="Ti.UI.Android" platform="android" id="progressIndicator"/>
-		<View id="detailsParentView" >
+		<ScrollView id="scrollView" >
+			<View id="detailsParentView" >
 			<ImageView id="carImageView"/>
 			<View id="cabDetailContainer">
 				<View id="cabNameView">
 					<Label id="cabNameLabel"  />
 					<Label id="cabNameValueLabel"  />
 				</View>
-				<View id="cabDistanceView">
-					<Label id="cabDistanceLabel"  />
-					<Label id="cabDistanceValueLabel"  />
+				<View id="cabTypeView">
+					<Label id="cabTypeLabel"  />
+					<Label id="cabTypeValueLabel"  />
 				</View>
 				<View id="driverNameView">
 					<Label id="driverNameLabel"  />
@@ -20,8 +21,11 @@
 					<Label id="driverPhoneNumberLabel"  />
 					<Label id="driverPhoneNumberValueLabel"  onClick = "initiateCall"/>
 				</View>
+				<View id="cabBookingInputPageHolder"/>
 				<Button id="bookButton" onClick="onBookClick"/>
 			</View>
 		</View>
+	</ScrollView>
+		
 	</Window>
 </Alloy>

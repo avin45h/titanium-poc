@@ -11,6 +11,12 @@
 "#progressIndicator":{
 	message:L("wait")
 },
+"#scrollView":{
+	showVerticalScrollIndicator:"true", 
+	showHorizontalScrollIndicator:"true",
+	height:"100%",
+	width:"100%"
+},
 "#detailsParentView":{
 	width:Ti.UI.FILL,
 	height:Ti.UI.FILL,

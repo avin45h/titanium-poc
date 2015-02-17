@@ -1,3 +1,7 @@
+"#progressIndicator":{
+	message:L("wait"), 
+	cancelable:false,
+},
 "#mapview": {
 	region: {
 		latitude: 28.535516,
@@ -43,6 +47,10 @@
 "#bookedCabs": {
     //icon: Ti.Android.R.drawable.ic_menu_search
     title : "Booked Cabs"
+},
+"#bookNow": {
+    //icon: Ti.Android.R.drawable.ic_menu_search
+    title : "Book Now"
 },
 "#actionbar": {
 	title: "Booked Cabs",

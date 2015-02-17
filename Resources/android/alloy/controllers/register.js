@@ -126,13 +126,21 @@ function Controller() {
     var $ = this;
     var exports = {};
     var __defers = {};
+    $.__views.scrollView = Ti.UI.createScrollView({
+        showVerticalScrollIndicator: "true",
+        showHorizontalScrollIndicator: "true",
+        height: "100%",
+        width: "100%",
+        id: "scrollView"
+    });
+    $.__views.scrollView && $.addTopLevelView($.__views.scrollView);
     $.__views.registerParentView = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
         backgroundColor: "white",
         id: "registerParentView"
     });
-    $.__views.registerParentView && $.addTopLevelView($.__views.registerParentView);
+    $.__views.scrollView.add($.__views.registerParentView);
     $.__views.signUpFormContainer = Ti.UI.createView({
         layout: "vertical",
         left: 10,

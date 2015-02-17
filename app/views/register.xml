@@ -1,4 +1,5 @@
 <Alloy>
+	<ScrollView id="scrollView" >
 	<View id = "registerParentView" class="container">
 		<View id="signUpFormContainer">
 			<TextField id="profileNameTextField"  />
@@ -14,4 +15,5 @@
 			<Button id="doneButton" onClick="onDoneButtonClick"/>
 		</View>
 	</View>
+	</ScrollView>
 </Alloy>

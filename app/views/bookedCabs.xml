@@ -1,7 +1,7 @@
 <Alloy>
-	<Window id="bookedCabsWin" >
+	<Window id="bookedCabsWin" onPostlayout="onPostLayout">
 		<ProgressIndicator platform="android" ns="Ti.UI.Android" id="progressIndicator"/>
-		<ActionBar id="actionbar"  onHomeIconItemSelected="onHomeIconItemSelected" />
+		<ActionBar id="actionbar"  onHomeIconItemSelected="onHomeIconItemSelected"  homeButtonEnabled="true"/>
 		<ListView id="cabListView" defaultItemTemplate="template" onItemclick="onListViewItemClick" separatorColor="black">
 			<Templates>
 				<ItemTemplate name="template">

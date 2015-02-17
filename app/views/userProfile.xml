@@ -1,6 +1,7 @@
 <Alloy>
 	<Window id="mainWin" class="container">
 		<ProgressIndicator platform="android" ns="Ti.UI.Android" platform="android" id="progressIndicator"/>
+		<ScrollView id="scrollView" >
 		<View id="detailsParentView" >
 			<ImageView id="userImageView"/>
 			<View id="userProfileContainer">
@@ -26,5 +27,6 @@
 				</View>
 			</View>
 		</View>
+		</ScrollView>
 	</Window>
 </Alloy>

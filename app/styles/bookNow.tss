@@ -1,0 +1,80 @@
+"#cabBookInputParentView":{
+	width:Ti.UI.FILL,
+	height:Ti.UI.FILL,
+	layout: "vertical",
+	backgroundColor: "white"
+},
+"#progressBar":{
+	message:"Please Wait..."
+},
+"#cabBookInputContainer":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top: 20,
+	layout: "vertical"
+},
+"#cabSourceView":{
+	layout: "horizontal",
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top: 10
+},
+"#cabSourceLabel":{
+	width: 85,
+	text: "Source:"
+},
+"#sourcePicker":{
+	color: "black"
+},
+"#cabDestinationView":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top: 10,
+	layout: "horizontal"
+},
+"#cabDestinationLabel":{
+	width: 85,
+	text: "Destination:"
+},
+"#destinationPicker":{
+	color: "black",
+	useSpinner: "false"
+},
+"#searchButton":{
+	width:Ti.UI.SIZE,
+	height:Ti.UI.SIZE,
+	top: 10,
+	title: "Search Cabs",
+	visible: true
+},
+"#availableCabsListView":{
+	top:10,
+	defaultItemTemplate: "template",
+	onItemclick: "onAvailableCabsListViewItemClick",
+	separatorColor: "black",
+	visible:false
+},
+"#cabImage": {
+	width: 72,
+	height: 72,
+	left: 0
+},
+"#cabName": {
+	color: 'black',
+	font: {
+		fontFamily: 'Arial',
+		fontSize: '20dp',
+		fontWeight: 'bold'
+	},
+	left: 120,
+	top: 15
+},
+"#cabType": {
+	color: 'gray',
+	font: {
+		fontFamily: 'Arial',
+		fontSize: '14dp'
+	},
+	left: 120,
+	bottom: 15
+},

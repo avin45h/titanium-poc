@@ -8,11 +8,12 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
-    function __alloyId0() {
-        $.__views.bookedCabsWin.removeEventListener("open", __alloyId0);
+    function __alloyId12() {
+        $.__views.bookedCabsWin.removeEventListener("open", __alloyId12);
         if ($.__views.bookedCabsWin.activity) {
             $.__views.bookedCabsWin.activity.actionBar.backgroundImage = "/actionbackground.png";
             $.__views.bookedCabsWin.activity.actionBar.displayHomeAsUp = true;
+            $.__views.bookedCabsWin.activity.actionBar.homeButtonEnabled = true;
             $.__views.bookedCabsWin.activity.actionBar.icon = "/actionicon.png";
             $.__views.bookedCabsWin.activity.actionBar.onHomeIconItemSelected = onHomeIconItemSelected;
         } else {
@@ -94,9 +95,14 @@ function Controller() {
         $.progressIndicator.hide();
         $.bookedCabsWin.close();
     }
+    function onPostLayout() {
+        if (!_isPostlayoutCalled) {
+            downloadCars();
+            _isPostlayoutCalled = true;
+        }
+    }
     function init() {
         $.bookedCabsWin.orientationModes = [ Titanium.UI.PORTRAIT ];
-        downloadCars();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "bookedCabs";
@@ -119,21 +125,22 @@ function Controller() {
         id: "bookedCabsWin"
     });
     $.__views.bookedCabsWin && $.addTopLevelView($.__views.bookedCabsWin);
+    onPostLayout ? $.__views.bookedCabsWin.addEventListener("postlayout", onPostLayout) : __defers["$.__views.bookedCabsWin!postlayout!onPostLayout"] = true;
     $.__views.progressIndicator = Ti.UI.Android.createProgressIndicator({
         message: L("wait"),
         id: "progressIndicator"
     });
     $.__views.bookedCabsWin.add($.__views.progressIndicator);
-    $.__views.bookedCabsWin.addEventListener("open", __alloyId0);
-    $.__views.__alloyId2 = Ti.UI.createView({
+    $.__views.bookedCabsWin.addEventListener("open", __alloyId12);
+    $.__views.__alloyId14 = Ti.UI.createView({
         backgroundColor: "#000000",
         height: "1px",
         width: "100%",
-        id: "__alloyId2"
+        id: "__alloyId14"
     });
-    var __alloyId3 = {};
-    var __alloyId6 = [];
-    var __alloyId7 = {
+    var __alloyId15 = {};
+    var __alloyId18 = [];
+    var __alloyId19 = {
         type: "Ti.UI.ImageView",
         bindId: "cabImage",
         properties: {
@@ -143,8 +150,8 @@ function Controller() {
             bindId: "cabImage"
         }
     };
-    __alloyId6.push(__alloyId7);
-    var __alloyId8 = {
+    __alloyId18.push(__alloyId19);
+    var __alloyId20 = {
         type: "Ti.UI.Label",
         bindId: "cabName",
         properties: {
@@ -159,8 +166,8 @@ function Controller() {
             bindId: "cabName"
         }
     };
-    __alloyId6.push(__alloyId8);
-    var __alloyId9 = {
+    __alloyId18.push(__alloyId20);
+    var __alloyId21 = {
         type: "Ti.UI.Label",
         bindId: "cabType",
         properties: {
@@ -174,17 +181,17 @@ function Controller() {
             bindId: "cabType"
         }
     };
-    __alloyId6.push(__alloyId9);
-    var __alloyId5 = {
+    __alloyId18.push(__alloyId21);
+    var __alloyId17 = {
         properties: {
             name: "template"
         },
-        childTemplates: __alloyId6
+        childTemplates: __alloyId18
     };
-    __alloyId3["template"] = __alloyId5;
+    __alloyId15["template"] = __alloyId17;
     $.__views.cabListView = Ti.UI.createListView({
-        templates: __alloyId3,
-        footerView: $.__views.__alloyId2,
+        templates: __alloyId15,
+        footerView: $.__views.__alloyId14,
         id: "cabListView",
         defaultItemTemplate: "template",
         separatorColor: "black"
@@ -197,7 +204,9 @@ function Controller() {
     var _http = require("http");
     var _user = require("user");
     var _carData = [];
+    var _isPostlayoutCalled = false;
     init();
+    __defers["$.__views.bookedCabsWin!postlayout!onPostLayout"] && $.__views.bookedCabsWin.addEventListener("postlayout", onPostLayout);
     __defers["$.__views.cabListView!itemclick!onListViewItemClick"] && $.__views.cabListView.addEventListener("itemclick", onListViewItemClick);
     _.extend($, exports);
 }

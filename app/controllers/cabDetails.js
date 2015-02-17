@@ -29,10 +29,16 @@ function pickerValueChangedListener() {
  * Will be called when user click the book button
  */
 function onBookClick(e) {
-    loadSourceAndDestination();
+    if (args.from === "home") {
+
+        alert("Under Construction.....");
+        return;
+    }
+    //loadSourceAndDestination();
     //TODO: Separate these two called and put at proper location
-    // bookCar();
-    $.bookButton.visible = false;
+    bookCar();
+    //$.bookButton.visible = false;
+    //onHttpCabBookSuccess();
 };
 
 /**
@@ -55,18 +61,23 @@ function bookCar() {
 
     Ti.API.info('userName*******:' + _user.getUserProfileProperty(Alloy.Globals.USER_NAME));
     _http.request({
-        //url = "https://lit-chamber-6827.herokuapp.com/cars/carname/book"
-        url : _url.cars + "/" + args.carDetails.carname + "/book",
+        //url = "https://lit-chamber-6827.herokuapp.com/cars/carname/book";Not working anymore
+        //url = "https://lit-chamber-6827.herokuapp.com/book"
+        //url : _url.cars + "/" + args.carDetails.carname + "/book",
+        url : _url.book,
         type : Alloy.Globals.HTTP_REQUEST_TYPE_POST,
         data : {
-            username : _user.getUserProfileProperty(Alloy.Globals.USER_NAME)
+            username : _user.getUserProfileProperty(Alloy.Globals.USER_NAME),
+            from:args.source,
+            to:args.destination,
+            carname:args.carDetails.carname
         },
         timeout : 60000,
         format : Alloy.Globals.DATA_FORMAT_JSON,
         success : onHttpCabBookSuccess,
         failure : onHttpCabBookFailure
     });
-}
+};
 
 /**
 
@@ -78,7 +89,19 @@ function onHttpCabBookSuccess(e) {
         $.progressIndicator.hide();
     }
     Ti.API.info('success CarBook:********' + JSON.stringify(e));
-    alert("Congratulations!\nYour cab has been booked successfully.");
+    // alert("Congratulations!\nYour cab has been booked successfully.");
+    if (args.from === "bookNow") {
+        var dialog = Ti.UI.createAlertDialog({
+            title : 'Success',
+            message : "Congratulations!\nYour cab has been booked successfully.",
+            buttonNames : ['OK']
+        });
+        dialog.addEventListener('click', function(e) {
+            args.closeWindowCallback();
+            closeWindow();
+        });
+        dialog.show();
+    }
 };
 
 /**
@@ -104,6 +127,10 @@ function initiateCall(e) {
  * Will be called when action bar back button will be clicked
  */
 function onHomeClick() {
+    closeWindow();
+};
+
+function closeWindow() {
     $.mainWin.close();
 };
 
@@ -123,7 +150,7 @@ function init() {
     $.cabNameValueLabel.text = args.carDetails.carname;
     $.cabTypeValueLabel.text = args.carDetails.cartype;
     $.driverNameValueLabel.text = args.carDetails.vendorsite;
-     _phoneNumber = args.carDetails.vendornumber;
+    _phoneNumber = args.carDetails.vendornumber;
     //$.driverPhoneNumberValueLabel.text = args.carDetails.vendornumber;
     if (OS_ANDROID) {
         //$.driverPhoneNumberValueLabel.html = "<html><u>"+args.carDetails.vendornumber+"</u></html>";

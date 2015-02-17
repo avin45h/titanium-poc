@@ -9,6 +9,10 @@ var _user = require("user");
  * @param {Object} e
  */
 function onSignInButtonClick(e) {
+    if(!Ti.Network.online){
+        alert("No internet connection.");
+        return;
+    }
     doLogin();
 }
 

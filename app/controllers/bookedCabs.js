@@ -2,6 +2,7 @@ var _url = require("url");
 var _http = require("http");
 var _user = require("user");
 var _carData = [];
+var _isPostlayoutCalled = false;
 
 //Initialize the page
 init();
@@ -137,6 +138,15 @@ function onHomeIconItemSelected() {
     $.bookedCabsWin.close();
 };
 
+
+function onPostLayout(e){
+    if(!_isPostlayoutCalled){
+        
+     downloadCars();
+     _isPostlayoutCalled = true;
+    }
+};
+
 /**
  *Initialize the page
  */
@@ -145,5 +155,4 @@ function init() {
     if (OS_ANDROID) {
         $.bookedCabsWin.orientationModes = [Titanium.UI.PORTRAIT];
     }
-    downloadCars();
 };

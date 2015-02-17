@@ -58,6 +58,14 @@ function Controller() {
         id: "progressIndicator"
     });
     $.__views.mainWin.add($.__views.progressIndicator);
+    $.__views.scrollView = Ti.UI.createScrollView({
+        showVerticalScrollIndicator: "true",
+        showHorizontalScrollIndicator: "true",
+        height: "100%",
+        width: "100%",
+        id: "scrollView"
+    });
+    $.__views.mainWin.add($.__views.scrollView);
     $.__views.detailsParentView = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
@@ -65,7 +73,7 @@ function Controller() {
         backgroundColor: "white",
         id: "detailsParentView"
     });
-    $.__views.mainWin.add($.__views.detailsParentView);
+    $.__views.scrollView.add($.__views.detailsParentView);
     $.__views.userImageView = Ti.UI.createImageView({
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE,
@@ -98,12 +106,12 @@ function Controller() {
         id: "userNameLabel"
     });
     $.__views.userNameView.add($.__views.userNameLabel);
-    $.__views.__alloyId36 = Ti.UI.createLabel({
+    $.__views.__alloyId51 = Ti.UI.createLabel({
         color: "black",
         text: ":",
-        id: "__alloyId36"
+        id: "__alloyId51"
     });
-    $.__views.userNameView.add($.__views.__alloyId36);
+    $.__views.userNameView.add($.__views.__alloyId51);
     $.__views.userNameValueLabel = Ti.UI.createLabel({
         color: "black",
         width: Ti.UI.SIZE,
@@ -129,12 +137,12 @@ function Controller() {
         id: "userEmailLabel"
     });
     $.__views.userEmailView.add($.__views.userEmailLabel);
-    $.__views.__alloyId37 = Ti.UI.createLabel({
+    $.__views.__alloyId52 = Ti.UI.createLabel({
         color: "black",
         text: ":",
-        id: "__alloyId37"
+        id: "__alloyId52"
     });
-    $.__views.userEmailView.add($.__views.__alloyId37);
+    $.__views.userEmailView.add($.__views.__alloyId52);
     $.__views.userEmailValueLabel = Ti.UI.createLabel({
         color: "black",
         width: Ti.UI.SIZE,
@@ -160,12 +168,12 @@ function Controller() {
         id: "userProfileNameLabel"
     });
     $.__views.userProfileNameView.add($.__views.userProfileNameLabel);
-    $.__views.__alloyId38 = Ti.UI.createLabel({
+    $.__views.__alloyId53 = Ti.UI.createLabel({
         color: "black",
         text: ":",
-        id: "__alloyId38"
+        id: "__alloyId53"
     });
-    $.__views.userProfileNameView.add($.__views.__alloyId38);
+    $.__views.userProfileNameView.add($.__views.__alloyId53);
     $.__views.userProfileNameValueLabel = Ti.UI.createLabel({
         color: "black",
         width: Ti.UI.SIZE,
@@ -191,12 +199,12 @@ function Controller() {
         id: "userPhoneNumberLabel"
     });
     $.__views.userPhoneNumberView.add($.__views.userPhoneNumberLabel);
-    $.__views.__alloyId39 = Ti.UI.createLabel({
+    $.__views.__alloyId54 = Ti.UI.createLabel({
         color: "black",
         text: ":",
-        id: "__alloyId39"
+        id: "__alloyId54"
     });
-    $.__views.userPhoneNumberView.add($.__views.__alloyId39);
+    $.__views.userPhoneNumberView.add($.__views.__alloyId54);
     $.__views.userPhoneNumberValueLabel = Ti.UI.createLabel({
         color: "black",
         width: Ti.UI.SIZE,

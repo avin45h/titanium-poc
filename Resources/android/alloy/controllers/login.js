@@ -9,6 +9,10 @@ function __processArg(obj, key) {
 
 function Controller() {
     function onSignInButtonClick() {
+        if (!Ti.Network.online) {
+            alert("No internet connection.");
+            return;
+        }
         doLogin();
     }
     function doLogin() {

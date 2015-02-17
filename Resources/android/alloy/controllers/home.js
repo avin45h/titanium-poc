@@ -8,25 +8,33 @@ function __processArg(obj, key) {
 }
 
 function Controller() {
-    function __alloyId35() {
-        $.__views.mainWin.removeEventListener("open", __alloyId35);
+    function __alloyId50() {
+        $.__views.mainWin.removeEventListener("open", __alloyId50);
         if ($.__views.mainWin.activity) $.__views.mainWin.activity.onCreateOptionsMenu = function(e) {
-            var __alloyId33 = {
+            var __alloyId47 = {
                 showAsAction: Ti.Android.SHOW_AS_ACTION_IF_ROOM,
-                title: "User Profile",
-                id: "userProfile"
+                title: "Book Now",
+                id: "bookNow"
             };
-            $.__views.userProfile = e.menu.add(_.pick(__alloyId33, Alloy.Android.menuItemCreateArgs));
-            $.__views.userProfile.applyProperties(_.omit(__alloyId33, Alloy.Android.menuItemCreateArgs));
-            onUserProfileClick ? $.__views.userProfile.addEventListener("click", onUserProfileClick) : __defers["$.__views.userProfile!click!onUserProfileClick"] = true;
-            var __alloyId34 = {
+            $.__views.bookNow = e.menu.add(_.pick(__alloyId47, Alloy.Android.menuItemCreateArgs));
+            $.__views.bookNow.applyProperties(_.omit(__alloyId47, Alloy.Android.menuItemCreateArgs));
+            onBookNowClick ? $.__views.bookNow.addEventListener("click", onBookNowClick) : __defers["$.__views.bookNow!click!onBookNowClick"] = true;
+            var __alloyId48 = {
                 showAsAction: Ti.Android.SHOW_AS_ACTION_IF_ROOM,
                 title: "Booked Cabs",
                 id: "bookedCabs"
             };
-            $.__views.bookedCabs = e.menu.add(_.pick(__alloyId34, Alloy.Android.menuItemCreateArgs));
-            $.__views.bookedCabs.applyProperties(_.omit(__alloyId34, Alloy.Android.menuItemCreateArgs));
+            $.__views.bookedCabs = e.menu.add(_.pick(__alloyId48, Alloy.Android.menuItemCreateArgs));
+            $.__views.bookedCabs.applyProperties(_.omit(__alloyId48, Alloy.Android.menuItemCreateArgs));
             onBookedCabsClick ? $.__views.bookedCabs.addEventListener("click", onBookedCabsClick) : __defers["$.__views.bookedCabs!click!onBookedCabsClick"] = true;
+            var __alloyId49 = {
+                showAsAction: Ti.Android.SHOW_AS_ACTION_IF_ROOM,
+                title: "User Profile",
+                id: "userProfile"
+            };
+            $.__views.userProfile = e.menu.add(_.pick(__alloyId49, Alloy.Android.menuItemCreateArgs));
+            $.__views.userProfile.applyProperties(_.omit(__alloyId49, Alloy.Android.menuItemCreateArgs));
+            onUserProfileClick ? $.__views.userProfile.addEventListener("click", onUserProfileClick) : __defers["$.__views.userProfile!click!onUserProfileClick"] = true;
         }; else {
             Ti.API.warn("You attempted to attach an Android Menu to a lightweight Window");
             Ti.API.warn("or other UI component which does not have an Android activity.");
@@ -49,9 +57,15 @@ function Controller() {
         var details = Alloy.createController("bookedCabs").getView();
         details.open();
     }
+    function onBookNowClick() {
+        Ti.API.info("onBookNowClick********");
+        var cabBookInputView = Alloy.createController("bookNow").getView();
+        cabBookInputView.open();
+    }
     function openCabDetailsWindow(index) {
         var details = Alloy.createController("cabDetails", {
-            carDetails: _carData[index].carDetails
+            carDetails: _carData[index].carDetails,
+            from: "home"
         }).getView();
         var activeTab = $.mainWin.getActiveTab();
         "cabsListTab" == activeTab.id ? $.cabsListTab.open(details) : "cabsMapTab" == activeTab.id && $.cabsMapTab.open(details);
@@ -118,7 +132,6 @@ function Controller() {
             cabAnnotations[cabAnnotations.length] = cabAnnotation;
         });
         $.mapview.annotations = cabAnnotations;
-        Ti.API.info("mapview****:" + JSON.stringify($.mapview));
         Ti.API.info("cabAnnotations****:" + JSON.stringify(cabAnnotations));
     }
     function downloadCars() {
@@ -143,9 +156,14 @@ function Controller() {
         Ti.API.info("failure Cars:********" + JSON.stringify(e));
         alert("Car's data loading failed.");
     }
+    function onPostLayout() {
+        if (!_isPostlayoutCalled) {
+            downloadCars();
+            _isPostlayoutCalled = true;
+        }
+    }
     function init() {
         $.mainWin.orientationModes = [ Titanium.UI.PORTRAIT ];
-        downloadCars();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "home";
@@ -163,23 +181,31 @@ function Controller() {
     var $ = this;
     var exports = {};
     var __defers = {};
-    var __alloyId21 = [];
+    var __alloyId33 = [];
     $.__views.cabsInListWin = Ti.UI.createWindow({
         id: "cabsInListWin"
     });
     $.__views.progressIndicator = Ti.UI.Android.createProgressIndicator({
+        message: L("wait"),
+        cancelable: false,
         id: "progressIndicator"
     });
     $.__views.cabsInListWin.add($.__views.progressIndicator);
-    $.__views.__alloyId23 = Ti.UI.createView({
+    $.__views.__alloyId35 = Ti.UI.createView({
         backgroundColor: "#000000",
-        height: "1px",
+        height: "1dp",
         width: "100%",
-        id: "__alloyId23"
+        id: "__alloyId35"
     });
-    var __alloyId24 = {};
-    var __alloyId27 = [];
-    var __alloyId28 = {
+    $.__views.__alloyId37 = Ti.UI.createView({
+        backgroundColor: "#000000",
+        height: "1dp",
+        width: "100%",
+        id: "__alloyId37"
+    });
+    var __alloyId38 = {};
+    var __alloyId41 = [];
+    var __alloyId42 = {
         type: "Ti.UI.ImageView",
         bindId: "cabImage",
         properties: {
@@ -189,8 +215,8 @@ function Controller() {
             bindId: "cabImage"
         }
     };
-    __alloyId27.push(__alloyId28);
-    var __alloyId29 = {
+    __alloyId41.push(__alloyId42);
+    var __alloyId43 = {
         type: "Ti.UI.Label",
         bindId: "cabName",
         properties: {
@@ -205,8 +231,8 @@ function Controller() {
             bindId: "cabName"
         }
     };
-    __alloyId27.push(__alloyId29);
-    var __alloyId30 = {
+    __alloyId41.push(__alloyId43);
+    var __alloyId44 = {
         type: "Ti.UI.Label",
         bindId: "distance",
         properties: {
@@ -220,17 +246,18 @@ function Controller() {
             bindId: "distance"
         }
     };
-    __alloyId27.push(__alloyId30);
-    var __alloyId26 = {
+    __alloyId41.push(__alloyId44);
+    var __alloyId40 = {
         properties: {
             name: "template"
         },
-        childTemplates: __alloyId27
+        childTemplates: __alloyId41
     };
-    __alloyId24["template"] = __alloyId26;
+    __alloyId38["template"] = __alloyId40;
     $.__views.cabListView = Ti.UI.createListView({
-        templates: __alloyId24,
-        footerView: $.__views.__alloyId23,
+        templates: __alloyId38,
+        headerView: $.__views.__alloyId35,
+        footerView: $.__views.__alloyId37,
         id: "cabListView",
         defaultItemTemplate: "template",
         separatorColor: "black"
@@ -243,17 +270,11 @@ function Controller() {
         title: "Cab List",
         icon: "KS_nav_views.png"
     });
-    __alloyId21.push($.__views.cabsListTab);
+    __alloyId33.push($.__views.cabsListTab);
     $.__views.cabsInMapWin = Ti.UI.createWindow({
         id: "cabsInMapWin"
     });
-    $.__views.label2 = Ti.UI.createLabel({
-        color: "#999",
-        text: "I am Window 2",
-        id: "label2"
-    });
-    $.__views.cabsInMapWin.add($.__views.label2);
-    var __alloyId31 = [];
+    var __alloyId45 = [];
     $.__views.mapview = require("ti.map").createView({
         region: {
             latitude: 28.535516,
@@ -264,7 +285,7 @@ function Controller() {
         animate: true,
         regionFit: true,
         userLocation: true,
-        annotations: __alloyId31,
+        annotations: __alloyId45,
         id: "mapview"
     });
     $.__views.cabsInMapWin.add($.__views.mapview);
@@ -275,14 +296,15 @@ function Controller() {
         title: "Show on Map",
         icon: "KS_nav_views.png"
     });
-    __alloyId21.push($.__views.cabsMapTab);
+    __alloyId33.push($.__views.cabsMapTab);
     $.__views.mainWin = Ti.UI.createTabGroup({
-        tabs: __alloyId21,
+        tabs: __alloyId33,
         id: "mainWin",
         backgroundColor: "white"
     });
-    $.__views.mainWin.addEventListener("open", __alloyId35);
+    $.__views.mainWin.addEventListener("open", __alloyId50);
     $.__views.mainWin && $.addTopLevelView($.__views.mainWin);
+    onPostLayout ? $.__views.mainWin.addEventListener("postlayout", onPostLayout) : __defers["$.__views.mainWin!postlayout!onPostLayout"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
     var cabAnnotations = [];
@@ -290,11 +312,14 @@ function Controller() {
     var _http = require("http");
     var _tiMap = require("ti.map");
     var _carData = [];
+    var _isPostlayoutCalled = false;
     init();
     __defers["$.__views.cabListView!itemclick!onListViewItemClick"] && $.__views.cabListView.addEventListener("itemclick", onListViewItemClick);
     __defers["$.__views.mapview!click!onMapViewClick"] && $.__views.mapview.addEventListener("click", onMapViewClick);
-    __defers["$.__views.userProfile!click!onUserProfileClick"] && $.__views.userProfile.addEventListener("click", onUserProfileClick);
+    __defers["$.__views.bookNow!click!onBookNowClick"] && $.__views.bookNow.addEventListener("click", onBookNowClick);
     __defers["$.__views.bookedCabs!click!onBookedCabsClick"] && $.__views.bookedCabs.addEventListener("click", onBookedCabsClick);
+    __defers["$.__views.userProfile!click!onUserProfileClick"] && $.__views.userProfile.addEventListener("click", onUserProfileClick);
+    __defers["$.__views.mainWin!postlayout!onPostLayout"] && $.__views.mainWin.addEventListener("postlayout", onPostLayout);
     _.extend($, exports);
 }
 

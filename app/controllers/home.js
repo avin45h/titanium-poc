@@ -5,6 +5,7 @@ var _url = require("url");
 var _http = require("http");
 var _tiMap = require('ti.map');
 var _carData = [];
+var _isPostlayoutCalled = false; 
 
 //Initialize the page
 init();
@@ -33,7 +34,7 @@ function onListViewItemClick(e) {
  * Will be called when user will press User Porfile action bar menu
  */
 function onUserProfileClick(e) {
-     var details = Alloy.createController("userProfile").getView();
+    var details = Alloy.createController("userProfile").getView();
     details.open();
 };
 
@@ -43,6 +44,15 @@ function onUserProfileClick(e) {
 function onBookedCabsClick(e) {
     var details = Alloy.createController("bookedCabs").getView();
     details.open();
+};
+
+/**
+ * Function will be called when Book Now button will be clicked on the Action Bar Manu
+ */
+function onBookNowClick(e) {
+    Ti.API.info('onBookNowClick********');
+    var cabBookInputView = Alloy.createController("bookNow").getView();
+    cabBookInputView.open();
 };
 
 /**
@@ -58,7 +68,7 @@ function onHomeIconItemSelected() {
 function openCabDetailsWindow(index) {
 
     var details = Alloy.createController("cabDetails", {
-        carDetails : _carData[index].carDetails
+        carDetails : _carData[index].carDetails, from:"home"
     }).getView();
     //var details = Alloy.createController("cabDetails",{cabDetails:cabData.cabs[index]}).getView();
     var activeTab = $.mainWin.getActiveTab();
@@ -156,7 +166,14 @@ function addAnotationToMap(carData) {
         cabAnnotations[cabAnnotations.length] = cabAnnotation;
     });
     $.mapview.annotations = cabAnnotations;
-    Ti.API.info('mapview****:' + JSON.stringify($.mapview));
+
+    // $.mapview.setLocation({
+        // latitude : 48.89364,
+        // longitude : 2.33739,
+        // latitudeDelta : 0.1,
+        // longitudeDelta : 0.1
+    // });
+
     Ti.API.info('cabAnnotations****:' + JSON.stringify(cabAnnotations));
 
 }
@@ -203,6 +220,13 @@ function onHttpFailure(e) {
     alert("Car's data loading failed.");
 };
 
+function onPostLayout(e){
+    if(!_isPostlayoutCalled){
+     downloadCars();
+     _isPostlayoutCalled = true;
+    }
+};
+
 /**
  *Initialize the page
  */
@@ -210,9 +234,8 @@ function onHttpFailure(e) {
 function init() {
     if (OS_ANDROID) {
         $.mainWin.orientationModes = [Titanium.UI.PORTRAIT];
-        
+
     }
-    downloadCars();
     //populateListView();
 }
 

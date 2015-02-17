@@ -16,19 +16,58 @@ function Controller() {
         }, 1500);
     }
     function onBookClick() {
-        loadSourceAndDestination();
-        $.bookButton.visible = false;
+        if ("home" === args.from) {
+            alert("Under Construction.....");
+            return;
+        }
+        bookCar();
     }
-    function loadSourceAndDestination() {
-        var cabBookInputView = Alloy.createController("cabBookInput", {
-            progressIndicator: $.progressIndicator
-        }).getView();
-        $.cabBookingInputPageHolder.add(cabBookInputView);
+    function bookCar() {
+        $.progressIndicator.show();
+        Ti.API.info("userName*******:" + _user.getUserProfileProperty(Alloy.Globals.USER_NAME));
+        _http.request({
+            url: _url.book,
+            type: Alloy.Globals.HTTP_REQUEST_TYPE_POST,
+            data: {
+                username: _user.getUserProfileProperty(Alloy.Globals.USER_NAME),
+                from: args.source,
+                to: args.destination,
+                carname: args.carDetails.carname
+            },
+            timeout: 6e4,
+            format: Alloy.Globals.DATA_FORMAT_JSON,
+            success: onHttpCabBookSuccess,
+            failure: onHttpCabBookFailure
+        });
+    }
+    function onHttpCabBookSuccess(e) {
+        $.progressIndicator.hide();
+        Ti.API.info("success CarBook:********" + JSON.stringify(e));
+        if ("bookNow" === args.from) {
+            var dialog = Ti.UI.createAlertDialog({
+                title: "Success",
+                message: "Congratulations!\nYour cab has been booked successfully.",
+                buttonNames: [ "OK" ]
+            });
+            dialog.addEventListener("click", function() {
+                args.closeWindowCallback();
+                closeWindow();
+            });
+            dialog.show();
+        }
+    }
+    function onHttpCabBookFailure(e) {
+        $.progressIndicator.hide();
+        Ti.API.info("failure CarBook:********" + JSON.stringify(e));
+        alert("CarBook failed. Please try again.");
     }
     function initiateCall() {
         Titanium.Platform.openURL("tel:" + _phoneNumber);
     }
     function onHomeClick() {
+        closeWindow();
+    }
+    function closeWindow() {
         $.mainWin.close();
     }
     function init() {
@@ -221,9 +260,9 @@ function Controller() {
     _.extend($, $.__views);
     var args = arguments[0] || {};
     Ti.API.info("args********:" + JSON.stringify(args));
-    require("http");
-    require("url");
-    require("user");
+    var _http = require("http");
+    var _url = require("url");
+    var _user = require("user");
     var _utils = require("utils");
     var _phoneNumber;
     init();
